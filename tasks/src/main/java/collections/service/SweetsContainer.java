@@ -1,7 +1,8 @@
-package collectionsMainTask.service;
+package collections.service;
 
-import collectionsMainTask.models.Sweets;
+import collections.models.Sweets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SweetsContainer {
@@ -13,12 +14,12 @@ public class SweetsContainer {
         return totalPriceGift;
     }
 
-    public static void searchSweetForSugarConcentration(List<Sweets> childGift, int minSugarConcentration, int maxSugarConcentration) {
-        for (Sweets sweets : childGift) {
+    public static List<Sweets> searchSweetForSugarConcentration(List<Sweets> childGift, int minSugarConcentration, int maxSugarConcentration) {
+        List<Sweets> sweetsList = new ArrayList<>();
+        for (Sweets sweets : childGift)
             if (sweets.getSugarConcentration() >= minSugarConcentration && sweets.getSugarConcentration() <= maxSugarConcentration) {
-                System.out.println(sweets);
+                sweetsList.add(sweets);
             }
-        }
+        return sweetsList;
     }
-
 }

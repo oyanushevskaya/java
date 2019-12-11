@@ -1,12 +1,14 @@
 package classes;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
-public class CustomerContainer {
+class CustomerContainer {
 
-    public Customer customerAdd() {
+    Customer addCustomer() {
         Customer customer = new Customer();
         customer.setCustomerId(6);
         customer.setLastName("Harris");
@@ -19,13 +21,7 @@ public class CustomerContainer {
                 customer.getAddress(), customer.getNumberCreditCard(), customer.getNumberBankAccount());
     }
 
-    public void getAllCustomers(Customer[] customers) {
-        for (Customer customer: customers) {
-            System.out.println(customer);
-        }
-        System.out.println("\n");
-    }
-    public void sortCustomers(Customer[] customers) {
+    void sortCustomers(Customer[] customers) {
         Arrays.sort(customers, Comparator.comparing(Customer::getLastName));
         for (Customer customer: customers) {
             System.out.println(customer);
@@ -34,11 +30,13 @@ public class CustomerContainer {
     }
 
 
-    public void searchCardInInterval(Customer[] customers, long MIN_VALUE, long MAX_VALUE) {
+    List<Customer> searchCardInInterval(Customer[] customers, long minNumberCreditCard, long maxNumberCreditCard) {
+        List<Customer> customerList = new ArrayList<>();
         for (Customer customer: customers) {
-            if (customer.getNumberCreditCard() > MIN_VALUE && customer.getNumberCreditCard() < MAX_VALUE) {
-                System.out.println(customer);
+            if (customer.getNumberCreditCard() > minNumberCreditCard && customer.getNumberCreditCard() < maxNumberCreditCard) {
+                customerList.add(customer);
             }
         }
+        return customerList;
     }
 }

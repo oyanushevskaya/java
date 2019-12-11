@@ -1,4 +1,4 @@
-package collectionsMainTask.models;
+package collections.models;
 
 public class Candy extends Sweets {
     public enum CandyType {

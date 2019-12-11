@@ -1,10 +1,13 @@
 package classes;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 public class Customer implements Comparable<Customer> {
     private long customerId;
-    private String firstName, middleName, lastName;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String address;
     private long numberCreditCard;
     private BigInteger numberBankAccount;
@@ -84,8 +87,23 @@ public class Customer implements Comparable<Customer> {
         return 0;
     }
 
-    public int countCustomers(int customerId){
-        return ++customerId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return customerId == customer.customerId &&
+                numberCreditCard == customer.numberCreditCard &&
+                Objects.equals(firstName, customer.firstName) &&
+                Objects.equals(middleName, customer.middleName) &&
+                Objects.equals(lastName, customer.lastName) &&
+                Objects.equals(address, customer.address) &&
+                Objects.equals(numberBankAccount, customer.numberBankAccount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, firstName, middleName, lastName, address, numberCreditCard, numberBankAccount);
     }
 
     @Override

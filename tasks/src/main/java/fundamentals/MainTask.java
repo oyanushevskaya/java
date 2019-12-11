@@ -1,57 +1,67 @@
 package fundamentals;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class MainTask {
+    private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        //1. Приветствовать любого пользователя при вводе его имени через командную строку.
+    //1. Приветствовать любого пользователя при вводе его имени через командную строку.
+    static String welcomeUser() {
         System.out.print("Enter your name: ");
-        String name = sc.next();
-        System.out.println("Hello, " + name);
-
-        //2. Отобразить в окне консоли аргументы командной строки в обратном порядке.
+        String nameUser = scanner.next();
+        return "Hello, " + nameUser;
+    }
+    //2. Отобразить в окне консоли аргументы командной строки в обратном порядке.
+    static void reverseArray(String[] args) {
         System.out.println("Array");
-        for (int i = 0; i < args.length; i++) {
-            System.out.print(args[i] + " ");
+        for (String arg : args) {
+            System.out.print(arg + " ");
         }
         System.out.println("\nReverse array");
         for (int i = args.length-1; i >= 0; i--) {
             System.out.print(args[i] + " ");
         }
-
-        //3. Вывести заданное количество заданных чисел с переходом и без перехода на новую строку.
-        System.out.print("\nn = ");
-        int n = sc.nextInt();
-        int random[] = new int[n];
-        for(int i = 0; i < n; i++){
-            random[i] = (int)(Math.random()*10);
-            System.out.println(random[i]);
+    }
+    //3. Вывести заданное количество заданных чисел с переходом и без перехода на новую строку.
+    static void printRandomNumber() {
+        System.out.print("\nEnter size of the array  = ");
+        Random random = new Random();
+        int sizeArray = scanner.nextInt();
+        int[] randomArray = new int[sizeArray];
+        for(int i = 0; i < sizeArray; i++){
+            randomArray[i] = random.nextInt(10);
+            System.out.println(randomArray[i]);
         }
-        for (int i: random) {
+        for (int i: randomArray) {
             System.out.print(i + " ");
         }
+    }
 
-        //4. Ввести целые числа как аргументы командной строки, подсчитать их сумму (произведение) и вывести результат на консоль.
+    //4. Ввести целые числа как аргументы командной строки, подсчитать их сумму (произведение) и вывести результат на консоль.
+    static void operationWithNumbers(String[] args) {
         int sum = 0;
         int mult = 1;
-        System.out.println("\nEnter numbers: ");
-        for (int i = 0; i < 6; i++) {
-            args[i] = sc.next();
-            sum += Integer.valueOf(args[i]);
-            mult *= Integer.valueOf(args[i]);
+        if (args.length == 0) {
+            System.out.println("\nEnter program arguments ");
+        } else
+            System.out.println("\nEnter " + args.length + " numbers: ");
+        for (int i = 0; i < args.length; i++) {
+            args[i] = scanner.next();
+            sum += Integer.parseInt(args[i]);
+            mult *= Integer.parseInt(args[i]);
         }
         for (String i: args) {
             System.out.print(i + " ");
         }
         System.out.println("\nSum = " + sum);
         System.out.println("Multiplication = " + mult);
+    }
 
-        //5. Ввести число от 1 до 12. Вывести на консоль название месяца, соответствующего данному числу. Осуществить проверку корректности ввода чисел.
+    //5. Ввести число от 1 до 12. Вывести на консоль название месяца, соответствующего данному числу. Осуществить проверку корректности ввода чисел.
+    static void printGivenMonth() {
         System.out.println("Enter month number: ");
-        int month = sc.nextInt();
+        int month = scanner.nextInt();
         String nameMonth;
         switch (month) {
             case 1:
@@ -94,5 +104,18 @@ public class MainTask {
                 nameMonth = "Month not exist";
         }
         System.out.println(nameMonth);
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(welcomeUser());
+
+        reverseArray(args);
+
+        printRandomNumber();
+
+        operationWithNumbers(args);
+
+        printGivenMonth();
     }
 }

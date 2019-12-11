@@ -1,4 +1,4 @@
-package collectionsMainTask.models;
+package collections.models;
 
 public class Chocolate extends Sweets {
     private ChocolateType type;

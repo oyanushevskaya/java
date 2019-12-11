@@ -1,6 +1,8 @@
 package classes;
 
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.List;
 
 public class Runner {
     public static void main(String[] args) {
@@ -18,11 +20,12 @@ public class Runner {
                         4567_5963_7896_3569L, new BigInteger("40817810099910004315")),
                 new Customer(5, "Lawson", "Gregory", "Julian", "Newport",
                         9999_9999_9999_9999L, new BigInteger("40817810099910004316")),
-                container.customerAdd()
+                container.addCustomer()
         };
-
-        container.getAllCustomers(customers);
+        Arrays.stream(customers).forEach(System.out::println);
+        System.out.println("\nSorted customers: ");
         container.sortCustomers(customers);
-        container.searchCardInInterval(customers, MIN_NUMBER_CREDIT_CARD, MAX_NUMBER_CREDIT_CARD);
+        List<Customer> chosenCustomers = container.searchCardInInterval(customers, MIN_NUMBER_CREDIT_CARD, MAX_NUMBER_CREDIT_CARD);
+        chosenCustomers.forEach(System.out::println);
     }
 }
