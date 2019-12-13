@@ -1,19 +1,19 @@
 package exception.models;
 
 public class Faculty{
-    public enum NameFaculty {
-        MATHEMATICS, PHYSICS, BIOLOGY, GEOLOGY
+    public enum FacultyName {
+        MATHEMATICS, PHYSICS, BIOLOGY, GEOLOGY, LAW
     }
-    private NameFaculty nameFaculty;
+    private FacultyName facultyName;
 
     public Faculty() {
     }
 
-    public Faculty(NameFaculty nameFaculty) {
-        this.nameFaculty = nameFaculty;
+    public Faculty(FacultyName facultyName) {
+        this.facultyName = facultyName;
     }
 
-    public NameFaculty getNameFaculty() {
-        return nameFaculty;
+    public FacultyName getFacultyName() {
+        return facultyName;
     }
 }

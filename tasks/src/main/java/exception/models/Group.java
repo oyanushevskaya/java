@@ -1,21 +1,25 @@
 package exception.models;
 
 public class Group extends Faculty {
-    public enum NameGroup {
+    public enum GroupName {
         M1, M2, M3, M4, P1, P2, P3, P4, B1, B2, B3, B4, G1, G2, G3, G4
     }
-    private NameGroup nameGroup;
+    private GroupName groupName;
 
     public Group() {
         super();
     }
 
-    public Group(NameFaculty nameFaculty, NameGroup nameGroup) {
-        super(nameFaculty);
-        this.nameGroup = nameGroup;
+    public Group(FacultyName facultyName, GroupName groupName) {
+        super(facultyName);
+        this.groupName = groupName;
     }
 
-    public NameGroup getNameGroup() {
-        return nameGroup;
+    public void setGroupName(GroupName groupName) {
+        this.groupName = groupName;
+    }
+
+    public GroupName getGroupName() {
+        return groupName;
     }
 }

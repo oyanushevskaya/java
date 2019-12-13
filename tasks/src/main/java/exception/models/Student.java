@@ -1,26 +1,39 @@
 package exception.models;
 
+import exception.service.WrongMarkException;
+
 public class Student extends Group {
-    public enum NamesSubjects {
+    public enum SubjectsName {
         COMPUTER_SCIENCE, ANATOMY, CHEMISTRY, ECONOMICS, ENGLISH, GEOGRAPHY, HISTORY, ASTRONOMY
     }
     private String lastName;
-    private NamesSubjects subject;
+    private SubjectsName subject;
     private int mark;
 
     public Student() {
         super();
     }
 
-    public Student(String lastName, NameFaculty nameFaculty, NameGroup nameGroup, NamesSubjects subject, int mark) {
-        super(nameFaculty, nameGroup);
+    public Student(String lastName, FacultyName facultyName, GroupName groupName) {
+        super(facultyName, groupName);
+        setLastName(lastName);
+    }
+
+    public Student(String lastName, FacultyName facultyName, GroupName groupName, SubjectsName subject, int mark) {
+        super(facultyName, groupName);
         setLastName(lastName);
         setSubject(subject);
         setMark(mark);
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (lastName == null) {
+            throw new IllegalArgumentException("Name is null");
+        } else if ("".equals(lastName)) {
+            throw new IllegalArgumentException("Name is empty");
+        } else {
+            this.lastName = lastName;
+        }
     }
 
     public String getLastName() {
@@ -28,27 +41,34 @@ public class Student extends Group {
     }
 
     public void setMark(int mark) {
-        this.mark = mark;
+        if (mark < 0 || mark > 10) {
+            throw new WrongMarkException(mark, "Non correct mark");
+        } else {
+            this.mark = mark;
+        }
     }
 
     public int getMark() {
         return mark;
     }
 
-    public NamesSubjects getSubject() {
-        return subject;
-    }
-
-    public void setSubject(NamesSubjects subject) {
+    public void setSubject(SubjectsName subject) {
+        if (subject == null) {
+            throw new IllegalArgumentException("Subject is null");
+        }
         this.subject = subject;
     }
 
-    public NameGroup getGroup() {
-        return super.getNameGroup();
+    public SubjectsName getSubject() {
+        return subject;
     }
 
-    public NameFaculty getFaculty() {
-        return super.getNameFaculty();
+    public GroupName getGroup() {
+        return super.getGroupName();
+    }
+
+    public FacultyName getFaculty() {
+        return super.getFacultyName();
     }
 
     @Override
