@@ -8,14 +8,14 @@ import java.util.*;
 //1.   Ввести строки из файла, записать в список. Вывести строки в файл в обратном порядке.
 public class OptionalTask1 {
     public static void main(String[] args) throws IOException {
-        final String PACKAGE = "src/main/java/";
+        final String PACKAGE = "data/";
         final String EXT = ".txt";
         FileWriter fileWriter;
         try (FileReader fileReader = new FileReader(PACKAGE + "in" + EXT)) {
             fileWriter = new FileWriter(PACKAGE + "out" + EXT);
             Scanner sc = new Scanner(fileReader);
 
-            List<String> list = new ArrayList<String>();
+            List<String> list = new ArrayList<>();
             while (sc.hasNext()) {
                 String lineNext = sc.nextLine();
                 list.add(lineNext);
