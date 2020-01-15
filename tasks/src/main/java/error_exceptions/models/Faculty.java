@@ -8,6 +8,11 @@ public class Faculty extends Group {
 
   private FacultyName facultyName;
 
+  public Faculty(FacultyName facultyName, GroupName groupName) {
+    super(groupName);
+    this.facultyName = facultyName;
+  }
+
   public Faculty(FacultyName facultyName, GroupName groupName, Student student) {
     super(groupName, student);
     this.facultyName = facultyName;

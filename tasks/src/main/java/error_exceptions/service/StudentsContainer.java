@@ -46,10 +46,10 @@ public class StudentsContainer {
         return averageMark;
     }
 
-    private static boolean studentInGroup(List<Faculty> faculties, Group.GroupName group) {
+    private static boolean hasStudentInGroup(List<Faculty> faculties, Group.GroupName group) {
         boolean hasStudent = false;
-        for (Faculty faculty : faculties) {
-            String groupNames = faculty.getGroupName().name();
+        for (Faculty list : faculties) {
+            String groupNames = list.getGroupName().name();
             if (groupNames.contains(group.name())) {
                 hasStudent = true;
                 break;
@@ -58,12 +58,11 @@ public class StudentsContainer {
         return hasStudent;
     }
 
-    private static boolean groupsInFaculty(List<Faculty> faculties, Group.GroupName group,
+    private static boolean hasGroupsInFaculty(List<Faculty> faculties, Group.GroupName group,
         Faculty.FacultyName facultyName) {
         boolean hasGroup = false;
         for (Faculty faculty : faculties) {
-            if (faculty.getFacultyName().equals(facultyName) && faculty.getGroupName()
-                .equals(group)) {
+            if (faculty.getFacultyName().equals(facultyName) && faculty.getGroupName().equals(group)) {
                 hasGroup = true;
                 break;
             }
@@ -91,11 +90,11 @@ public class StudentsContainer {
         countSubjects = 0;
         averageMark = 0.0;
 
-        if (!studentInGroup(faculties, group)) {
+        if (!hasStudentInGroup(faculties, group)) {
             throw new StudentInGroupException("Group without student");
         }
 
-        if (!groupsInFaculty(faculties, group, facultyName)) {
+        if (!hasGroupsInFaculty(faculties, group, facultyName)) {
             throw new GroupsInFacultyException("Faculty not contains this group");
         }
 
