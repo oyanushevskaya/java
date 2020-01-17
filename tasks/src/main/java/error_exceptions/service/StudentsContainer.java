@@ -48,8 +48,8 @@ public class StudentsContainer {
 
     private static boolean hasStudentInGroup(List<Faculty> faculties, Group.GroupName group) {
         boolean hasStudent = false;
-        for (Faculty list : faculties) {
-            String groupNames = list.getGroupName().name();
+        for (Faculty faculty : faculties) {
+            String groupNames = faculty.getGroupName().name();
             if (groupNames.contains(group.name())) {
                 hasStudent = true;
                 break;
