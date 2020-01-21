@@ -3,8 +3,6 @@ package io.optional;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 // 4. Прочитать текст Java-программы и в каждом слове длиннее двух символов все строчные символы заменить прописными.
@@ -17,20 +15,17 @@ public class Task4 {
     try (FileReader fileReader = new FileReader(PACKAGE + "programText" + EXT)) {
       fileWriter = new FileWriter(PACKAGE + "modifiedText" + EXT);
       Scanner sc = new Scanner(fileReader);
-      List<String> listOfWords = new ArrayList<>();
+      String text = "";
       while (sc.hasNext()) {
-        String wordNext = sc.next();
-        if (wordNext.length() > 2) {
-          listOfWords.add(wordNext.toUpperCase() + " ");
+        String nextWord = sc.next();
+        if (nextWord.length() > 2) {
+          text = text.concat(nextWord.toUpperCase() + " ");
         } else {
-          listOfWords.add(wordNext + " ");
+          text = text.concat(nextWord + " ");
         }
       }
-      for (String word : listOfWords) {
-        fileWriter.write(word);
-      }
+      fileWriter.write(text);
     }
     fileWriter.close();
-
   }
 }

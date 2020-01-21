@@ -18,13 +18,19 @@ class FileService {
   private static int countFiles = 0;
   private static int countFolders = -1; //not count the main folder
 
-  private static void getListOfLines(String lineNext) {
-    listOfLines.add(lineNext.replace("|", " ").replace("-", " ").trim());
-    listOfLines.removeIf(line -> (line.length() == 0)); //remove empty lines
+  private static Scanner scanner = null;
+
+  private static List<String> getListOfLines() {
+    while (scanner.hasNext()) {
+      String lineNext = scanner.nextLine();
+      listOfLines.add(lineNext.replace("|", " ").replace("-", " ").trim());
+      listOfLines.removeIf(line -> (line.length() == 0)); //remove empty lines
+    }
+    return listOfLines;
   }
 
-  private static void getListOfFiles() {
-    for (String lines : listOfLines) {
+  private static List<String> getListOfFiles() {
+    for (String lines : getListOfLines()) {
       if (lines.matches(ALL_EXPANSION)) {  //find all expansion
         listOfFiles.add(lines);
         countFiles++;
@@ -32,6 +38,7 @@ class FileService {
         countFolders++;
       }
     }
+    return listOfFiles;
   }
 
   private static int calculateAverageQtyOfFilesInFolder() {
@@ -41,25 +48,23 @@ class FileService {
   private static int calculateAverageLengthOfFileNames() {
     int nameFiles;
     int lengthNameFiles = 0;
-    for (String listFile : listOfFiles) {
+    for (String listFile : getListOfFiles()) {
       nameFiles = listFile.lastIndexOf('.');
       lengthNameFiles += nameFiles;
     }
     return lengthNameFiles / listOfFiles.size();
   }
 
-  static void getInfoAboutFile(Path path) throws IOException {
+  static void infoAboutFile(Path path) throws IOException {
     try (FileReader reader = new FileReader(path.toFile())) {
-      Scanner sc = new Scanner(reader);
-      while (sc.hasNext()) {
-        getListOfLines(sc.nextLine());
-      }
-      if (!listOfLines.isEmpty()) {
+      scanner = new Scanner(reader);
+      if (!getListOfLines().isEmpty()) {
         getListOfFiles();
         System.out.println(
             String.format("Count files : %d %nCount folders : %d", countFiles, countFolders));
         System.out.println(String
-            .format("Average files in folder : %d %nAverage file name : %d ", calculateAverageQtyOfFilesInFolder(),
+            .format("Average files in folder : %d %nAverage file name : %d ",
+                calculateAverageQtyOfFilesInFolder(),
                 calculateAverageLengthOfFileNames()));
       } else {
         throw new IllegalArgumentException("File is empty!");
@@ -67,7 +72,7 @@ class FileService {
     }
   }
 
-  static void getFileTree(Path path) throws IOException {
+  static void fileTree(Path path) throws IOException {
     FileTreeVisitor fileTreeVisitor = new FileTreeVisitor();
     Files.walkFileTree(path, fileTreeVisitor);
     String fileVisitResult = fileTreeVisitor.toString();
