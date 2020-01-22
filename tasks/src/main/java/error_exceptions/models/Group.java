@@ -9,8 +9,8 @@ public class Group {
     private GroupName groupName;
     private Student student;
 
-    public Group(GroupName groupName) {
-        this.groupName = groupName;
+    Group(GroupName groupName) {
+        setGroupName(groupName);
     }
 
     Group(GroupName groupName, Student student) {

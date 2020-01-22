@@ -1,0 +1,115 @@
+package classes;
+
+import java.math.BigInteger;
+import java.util.Objects;
+
+class Customer implements Comparable<Customer> {
+    private long customerId;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String address;
+    private long numberCreditCard;
+    private BigInteger numberBankAccount;
+
+    private Customer() {
+        super();
+    }
+
+    private Customer(long customerId, String lastName, String firstName, String middleName, String address, long numberCreditCard, BigInteger numberBankAccount) {
+        this.customerId = customerId;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.address = address;
+        this.numberCreditCard = numberCreditCard;
+        this.numberBankAccount = numberBankAccount;
+    }
+
+    private void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    private long getCustomerId() {
+        return customerId;
+    }
+
+    private void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    private String getLastName() {
+        return lastName;
+    }
+
+    private void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    private String getFirstName() {
+        return firstName;
+    }
+
+    private void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    private String getMiddleName() {
+        return middleName;
+    }
+
+    private void setAddress(String address) {
+        this.address = address;
+    }
+
+    private String getAddress() {
+        return address;
+    }
+
+    private void setNumberCreditCard(long numberCreditCard) {
+        this.numberCreditCard = numberCreditCard;
+    }
+
+    private long getNumberCreditCard() {
+        return numberCreditCard;
+    }
+
+    private void setNumberBankAccount(BigInteger numberBankAccount) {
+        this.numberBankAccount = numberBankAccount;
+    }
+
+    private BigInteger getNumberBankAccount() {
+        return numberBankAccount;
+    }
+
+    @Override
+    private int compareTo(Customer o) {
+        return 0;
+    }
+
+    @Override
+    private boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return customerId == customer.customerId &&
+                numberCreditCard == customer.numberCreditCard &&
+                Objects.equals(firstName, customer.firstName) &&
+                Objects.equals(middleName, customer.middleName) &&
+                Objects.equals(lastName, customer.lastName) &&
+                Objects.equals(address, customer.address) &&
+                Objects.equals(numberBankAccount, customer.numberBankAccount);
+    }
+
+    @Override
+    private int hashCode() {
+        return Objects.hash(customerId, firstName, middleName, lastName, address, numberCreditCard, numberBankAccount);
+    }
+
+    @Override
+    private String toString() {
+        return customerId + ": " + lastName + " " + firstName + " " + middleName +
+                "    Address: " + address + "    Credit card number:  " + numberCreditCard +
+                "   Bank account number: " + getNumberBankAccount().toString();
+    }
+}
