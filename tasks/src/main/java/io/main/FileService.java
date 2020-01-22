@@ -55,7 +55,7 @@ class FileService {
     return lengthNameFiles / listOfFiles.size();
   }
 
-  static void infoAboutFile(Path path) throws IOException {
+  static void printFileInfo(Path path) throws IOException {
     try (FileReader reader = new FileReader(path.toFile())) {
       scanner = new Scanner(reader);
       if (!getListOfLines().isEmpty()) {
@@ -72,7 +72,7 @@ class FileService {
     }
   }
 
-  static void fileTree(Path path) throws IOException {
+  static void writeFilesTree(Path path) throws IOException {
     FileTreeVisitor fileTreeVisitor = new FileTreeVisitor();
     Files.walkFileTree(path, fileTreeVisitor);
     String fileVisitResult = fileTreeVisitor.toString();
