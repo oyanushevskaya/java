@@ -24,7 +24,7 @@ class Parking implements Runnable {
         state = state.concat("Occupied slot : № " + (i + 1) + "\n");
       }
     }
-    if (state.length() == 0) {
+    if (state.isEmpty()) {
       state = state.concat("All slots are free\n");
     }
     return state;
@@ -59,8 +59,7 @@ class Parking implements Runnable {
     try {
       carMovesToFreeParkingSlot();
     } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new AssertionError(e);
+      e.printStackTrace();
     }
   }
 }

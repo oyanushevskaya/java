@@ -6,8 +6,8 @@ public class CarThread implements Runnable {
   static final int NUMBER_CARS = 20;
 
   private void carArrivesToParking() throws InterruptedException {
-    for (int i = 0; i < NUMBER_CARS; i++) {
-      System.out.println(String.format("Сar №%d has arrived ", i + 1));
+    for (int i = 1; i <= NUMBER_CARS; i++) {
+      System.out.println(String.format("Сar №%d has arrived ", i));
       TimeUnit.SECONDS.sleep(2);
     }
   }
@@ -17,8 +17,7 @@ public class CarThread implements Runnable {
     try {
       carArrivesToParking();
     } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new AssertionError(e);
+      e.printStackTrace();
     }
   }
 }

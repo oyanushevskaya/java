@@ -14,8 +14,7 @@ public class Runner {
       new Thread(new Parking()).start();
 
     } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new AssertionError(e);
+      e.printStackTrace();
     }
   }
 }
