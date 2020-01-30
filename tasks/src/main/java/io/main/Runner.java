@@ -10,10 +10,10 @@ public class Runner {
     System.out.println(path.toAbsolutePath());
 
     if (path.toFile().isDirectory()) {
-      FileService.fileTree(path);
+      FileService.writeFilesTree(path);
     }
     if (path.toFile().isFile()) {
-      FileService.infoAboutFile(path);
+      FileService.printFileInfo(path);
     }
     if (!path.toFile().isFile() && !path.toFile().isDirectory()) {
       throw new IllegalArgumentException("This file or directory not exist!");
