@@ -20,15 +20,15 @@ public class EmailFormCalculatorPage extends GoogleCloudAbstractPage {
 
   public EmailFormCalculatorPage getEmail() {
     driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-    waitForVisibleFrame(driver);
+    waitForVisibleFrame(driver, "myFrame");
     emailInput.click();
     waitForVisibleElement(driver, emailInput);
     emailInput.sendKeys(Keys.chord(Keys.CONTROL,"v"));
     return this;
   }
 
-  public TenMinuteEmailHomePage clickSendEmail() {
+  public void clickSendEmail() {
+    waitForVisibleElement(driver, sendEmailButton);
     sendEmailButton.sendKeys(Keys.ENTER);
-    return new TenMinuteEmailHomePage(driver);
   }
 }

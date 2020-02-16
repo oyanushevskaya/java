@@ -8,14 +8,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Browser {
-
   public static void waitForVisibleElement(WebDriver driver, WebElement element) {
     new WebDriverWait(driver, TIME_OUT_IN_SECONDS)
         .until(ExpectedConditions.visibilityOf(element));
   }
 
-  public static void waitForVisibleFrame(WebDriver driver) {
+  public static void waitForVisibleFrame(WebDriver driver, String frameLocator) {
     new WebDriverWait(driver, TIME_OUT_IN_SECONDS)
-        .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(FRAME_LOCATOR));
+        .until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));
   }
 }

@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import webdriver.pastebin.page.PastebinHomePage;
 
-public class WebDriverPastebinRunner {
+public class WebDriverPastebin {
   public static void main(String[] args) {
     WebDriver driver = new ChromeDriver();
     driver.manage().window().maximize();

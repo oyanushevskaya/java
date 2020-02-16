@@ -18,8 +18,9 @@ public class GoogleCloudHomePage extends GoogleCloudAbstractPage {
     super(driver);
   }
 
-  public void openPage() {
+  public GoogleCloudHomePage openPage() {
     driver.get(HOMEPAGE_URL);
+    return this;
   }
 
   public GoogleCloudHomePage clickSearchButton() {
@@ -38,6 +39,5 @@ public class GoogleCloudHomePage extends GoogleCloudAbstractPage {
     new WebDriverWait(driver,10)
         .until(driver -> driver.findElement(By.xpath("//b[contains(text(), '" + term + "')]")))
         .click();
-    new GoogleCloudCalculatorPage(driver);
   }
 }

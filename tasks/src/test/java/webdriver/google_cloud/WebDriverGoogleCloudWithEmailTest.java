@@ -11,18 +11,16 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import webdriver.google_cloud.page.TenMinuteEmailHomePage;
 import webdriver.google_cloud.page.GoogleCloudCalculatorPage;
-import webdriver.google_cloud.page.GoogleCloudHomePage;
 import webdriver.google_cloud.service.GoogleCloudService;
 
 public class WebDriverGoogleCloudWithEmailTest {
   private WebDriver driver;
 
-  @BeforeMethod(alwaysRun = true)
-  public void browserSetup() {
+  @BeforeMethod(alwaysRun = true,
+      description = "Google Chrome browser opens, going to Google Cloud Home page and Calculator page, form is filling")
+  public void goToCalculatorPage() {
     driver = new ChromeDriver();
     driver.manage().window().maximize();
-    new GoogleCloudHomePage(driver)
-        .openPage();
     new GoogleCloudService(driver)
         .navigateToCalculatorPage()
         .fillCalculatorForm();
@@ -30,18 +28,15 @@ public class WebDriverGoogleCloudWithEmailTest {
 
   @Test(description = "Verify that details for compute engine displaying correctly on Calculator page")
   public void verifyDropdownValues() {
-    GoogleCloudCalculatorPage calculatorPage = new GoogleCloudCalculatorPage(driver);
     SoftAssert softAssert = new SoftAssert();
-    softAssert.assertTrue(calculatorPage.getMachineClassText().equals(MACHINE_CLASS_REGULAR),
+    GoogleCloudCalculatorPage calculatorPage = new GoogleCloudCalculatorPage(driver);
+    softAssert.assertEquals(calculatorPage.getMachineClassText(), MACHINE_CLASS_REGULAR,
         ERROR_MACHINE_CLASS);
-    softAssert.assertTrue(calculatorPage.getMachineTypeText().contains(MACHINE_TYPE_N1STANDART8),
+    softAssert.assertEquals(calculatorPage.getMachineTypeText(), MACHINE_TYPE_N1STANDART8,
         ERROR_MACHINE_TYPE);
-    softAssert.assertTrue(calculatorPage.getRegionText().equals(REGION_FRANKFURT),
-        ERROR_REGION);
-    softAssert.assertTrue(calculatorPage.getLocalSSDText().equals(LOCAL_SSD_2x375GB),
-        ERROR_LOCAL_SSD);
-    softAssert.assertTrue(calculatorPage.getCommittedUsage().equals(USAGE_1YEAR),
-        ERROR_USAGE);
+    softAssert.assertEquals(calculatorPage.getRegionText(), REGION_FRANKFURT, ERROR_REGION);
+    softAssert.assertEquals(calculatorPage.getLocalSSDText(), LOCAL_SSD_2x375GB, ERROR_LOCAL_SSD);
+    softAssert.assertEquals(calculatorPage.getCommittedUsage(), USAGE_1YEAR, ERROR_USAGE);
     softAssert.assertAll();
   }
 
@@ -49,12 +44,11 @@ public class WebDriverGoogleCloudWithEmailTest {
   public void verifyTotalCostByEmail() {
     new GoogleCloudService(driver)
         .addEstimateAndSentOnEmail();
-
-    Assert.assertTrue(new TenMinuteEmailHomePage(driver).getTotalCostFromEmailText().contains(TOTAL_ESTIMATED_COST),
+    Assert.assertEquals(new TenMinuteEmailHomePage(driver).getTotalCostFromEmailText(),ESTIMATED_MONTHLY_COST,
         ERROR_TOTAL_COST);
   }
 
-  @AfterMethod(alwaysRun = true)
+  @AfterMethod(alwaysRun = true, description = "Google Chrome browser closes")
   public void browserTearDown() {
     driver.quit();
   }

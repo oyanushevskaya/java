@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
+  private WebElement webElement;
 
   @FindBy(xpath = "//div[@title='Compute Engine']/..")
   private WebElement computeEngineButton;
@@ -17,38 +18,22 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   private WebElement numberOfInstanceInput;
   @FindBy(id = "select_65")
   private WebElement searchOperatingSystemDropdown;
-  @FindBy(id = "select_option_55")
-  private WebElement freeDebianOption;
   @FindBy(id = "select_69")
   private WebElement machineClassDropdown;
-  @FindBy(id = "select_option_67")
-  private WebElement regularOption;
   @FindBy(id = "select_78")
   private WebElement machineTypeDropdown;
-  @FindBy(id = "select_option_212")
-  private WebElement n1Standart8Option;
   @FindBy(xpath = "//md-checkbox")
   private WebElement addGRUsCheckbox;
   @FindBy(id = "select_355")
   private WebElement numbersOfGRUsDropdown;
-  @FindBy(id = "select_option_360")
-  private WebElement numberOneOption;
   @FindBy(id = "select_357")
   private WebElement GRUTypeDropdown;
-  @FindBy(id = "select_option_367")
-  private WebElement NVIDIATeslaV100Option;
   @FindBy(id = "select_172")
   private WebElement localSSDDropdown;
-  @FindBy(id = "select_option_233")
-  private WebElement localSSDOption_2;
   @FindBy(id = "select_80")
   private WebElement datacenterLocationDropdown;
-  @FindBy(id = "select_option_181")
-  private WebElement frankfurtOption;
   @FindBy(id = "select_87")
   private WebElement committedUsageDropdown;
-  @FindBy(id = "select_option_85")
-  private WebElement oneYearOption;
   @FindBy(xpath = "//button[contains(text(), 'Add to Estimate')]")
   private WebElement addToEstimateButton;
   @FindBy(xpath = "//*[@class='md-title']/b")
@@ -61,6 +46,7 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   }
 
   public String getMachineClassText() {
+    waitForVisibleElement(driver,machineClassDropdown);
     return machineClassDropdown.getText();
   }
 
@@ -84,9 +70,13 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
     return totalCost.getText();
   }
 
+  public WebElement chooseOption(String value) {
+    return driver.findElement(By.xpath("//*[@value='"+value+"']"));
+  }
+
   public GoogleCloudCalculatorPage clickComputeEngine() {
     driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-    waitForVisibleFrame(driver);
+    waitForVisibleFrame(driver, "myFrame");
     waitForVisibleElement(driver, computeEngineButton);
     computeEngineButton.click();
     return this;
@@ -98,57 +88,64 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
     return this;
   }
 
-  public GoogleCloudCalculatorPage chooseOperatingSystem() {
+  public GoogleCloudCalculatorPage chooseOperatingSystem(String value) {
     searchOperatingSystemDropdown.sendKeys(ARROW_DOWN);
-    freeDebianOption.click();
+    chooseOption(value).click();
     return this;
   }
 
-  public GoogleCloudCalculatorPage chooseMachineClass() {
+  public GoogleCloudCalculatorPage chooseMachineClass(String value) {
     machineClassDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibleElement(driver, regularOption);
-    regularOption.click();
+    webElement = chooseOption(value);
+    waitForVisibleElement(driver, webElement);
+    webElement.sendKeys(ENTER);
     return this;
   }
 
-  public GoogleCloudCalculatorPage chooseMachineType() {
+  public GoogleCloudCalculatorPage chooseMachineType(String value) {
     machineTypeDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibleElement(driver, n1Standart8Option);
-    n1Standart8Option.sendKeys(ENTER);
+    webElement = chooseOption(value);
+    waitForVisibleElement(driver, webElement);
+    webElement.sendKeys(ENTER);
     return this;
   }
 
-  public GoogleCloudCalculatorPage chooseAddGRUs() {
+  public GoogleCloudCalculatorPage chooseAddGRUs(String numberValue, String typeValue) {
     addGRUsCheckbox.sendKeys(ENTER);
 
     numbersOfGRUsDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibleElement(driver, numberOneOption);
-    numberOneOption.sendKeys(ENTER);
+    webElement = driver.findElement(By.xpath("//*[@id='select_container_356']//*[@value='"+numberValue+"']"));
+    waitForVisibleElement(driver, webElement);
+    webElement.sendKeys(ENTER);
 
     GRUTypeDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibleElement(driver, NVIDIATeslaV100Option);
-    NVIDIATeslaV100Option.sendKeys(ENTER);
+    webElement = chooseOption(typeValue);
+    waitForVisibleElement(driver, webElement);
+    webElement.sendKeys(ENTER);
     return this;
   }
 
-  public GoogleCloudCalculatorPage chooseLocalSSD() {
+  public GoogleCloudCalculatorPage chooseLocalSSD(String value) {
     localSSDDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibleElement(driver, localSSDOption_2);
-    localSSDOption_2.sendKeys(ENTER);
+    webElement = driver.findElement(By.xpath("//*[@id='select_container_173']//*[@value='"+value+"']"));
+    waitForVisibleElement(driver, webElement);
+    webElement.sendKeys(ENTER);
     return this;
   }
 
-  public GoogleCloudCalculatorPage chooseDatacenterLocation() {
+  public GoogleCloudCalculatorPage chooseDatacenterLocation(String value) {
     datacenterLocationDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibleElement(driver, frankfurtOption);
-    frankfurtOption.sendKeys(ENTER);
+    webElement = driver.findElement(By.xpath("//*[@id='select_container_81']//*[@value='"+value+"']"));
+    waitForVisibleElement(driver, webElement);
+    webElement.sendKeys(ENTER);
     return this;
   }
 
-  public void chooseCommittedUsage() {
+  public void chooseCommittedUsage(String value) {
     committedUsageDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibleElement(driver, oneYearOption);
-    oneYearOption.sendKeys(ENTER);
+    webElement = driver.findElement(By.xpath("//*[@id='select_container_88']//*[@value='"+value+"']"));
+    waitForVisibleElement(driver, webElement);
+    webElement.sendKeys(ENTER);
   }
 
   public GoogleCloudCalculatorPage clickAddToEstimate() {
@@ -158,6 +155,5 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
 
   public void clickEmailEstimate() {
     emailEstimateButton.sendKeys(ENTER);
-    new TenMinuteEmailHomePage(driver);
   }
 }

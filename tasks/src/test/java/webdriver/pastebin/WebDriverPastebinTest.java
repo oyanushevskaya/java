@@ -14,29 +14,25 @@ import webdriver.pastebin.service.PastebinService;
 public class WebDriverPastebinTest {
   private WebDriver driver;
 
-  @BeforeMethod(alwaysRun = true)
+  @BeforeMethod(alwaysRun = true, description = "Google Chrome browser opens")
   public void browserSetup() {
     driver = new ChromeDriver();
     driver.manage().window().maximize();
+    new PastebinService()
+        .createNewPaste(driver);
   }
 
   @Test(description = "Pastebin insert new paste")
   public void verifyPastebinDetails() {
-    new PastebinHomePage(driver)
-        .openPage();
-    new PastebinService()
-         .createNewPaste(driver);
     SoftAssert softAssert = new SoftAssert();
-    softAssert.assertTrue(driver.getTitle().contains(PASTE_NAME),
-        ERROR_TITLE);
-    softAssert.assertTrue(new PastebinHomePage(driver).getSyntaxText().equals(BASH_NAME),
-        ERROR_SYNTAX);
-    softAssert.assertTrue(new PastebinHomePage(driver).getPasteText().equals(TEXT_FOR_PASTE),
+    softAssert.assertEquals(driver.getTitle(), ACTUAL_TITLE, ERROR_TITLE);
+    softAssert.assertEquals(new PastebinHomePage(driver).getSyntaxText(),BASH_NAME, ERROR_SYNTAX);
+    softAssert.assertEquals(new PastebinHomePage(driver).getPasteText(),TEXT_FOR_PASTE,
         ERROR_PASTE_TEXT);
     softAssert.assertAll();
   }
 
-  @AfterMethod(alwaysRun = true)
+  @AfterMethod(alwaysRun = true, description = "Google Chrome browser closes")
   public void browserTearDown() {
     driver.quit();
   }
