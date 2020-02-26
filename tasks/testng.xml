@@ -1,0 +1,20 @@
+<suite name="Tests Suite">
+  <test name="PastebinTest">
+    <classes>
+      <class name="webdriver.pastebin.WebDriverPastebinTest"/>
+    </classes>
+  </test>
+  <test name="GoogleCloudTest">
+    <classes>
+      <class name="webdriver.google_cloud.WebDriverGoogleCloudTest"/>
+      <class name="webdriver.google_cloud.WebDriverGoogleCloudWithEmailTest"/>
+    </classes>
+  </test>
+  <test name="YandexDiskTest">
+    <classes>
+      <class name="taf.WebDriverYandexDiskAuthTest"/>
+      <class name="taf.WebDriverYandexDiskMenuItemsTest"/>
+      <class name="taf.WebDriverYandexDiskTest"/>
+    </classes>
+  </test>
+</suite>
