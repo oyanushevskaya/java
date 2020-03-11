@@ -1,12 +1,20 @@
 package taf.page;
 
 import static taf.browser.Browser.*;
-import static taf.constants.Constants.*;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class YandexDiskAuthPage extends YandexDiskAbstractPage{
+  public final static By ERROR_MESSAGE = By.xpath("//div[@class='passp-form-field__error']");
+  public final static By USER_ACCOUNT = By.xpath("//div[@class='user-pic user-account__pic']");
+  public final static By USER_ACCOUNT_NAME = By.xpath("//span[@class='user-account__name']");
+
+  public final static By LOGIN_FIELD = By.id("passp-field-login");
+  public final static By PASSWORD_FIELD = By.id("passp-field-passwd");
+  public final static By SIGN_IN_BUTTON = By.xpath("//div[@class='passp-button passp-sign-in-button']");
+
   public YandexDiskAuthPage(WebDriver driver) {
     super(driver);
   }
@@ -32,18 +40,15 @@ public class YandexDiskAuthPage extends YandexDiskAbstractPage{
     enterPassword(password);
   }
 
-  public boolean errorMessageIsDisplayed() {
-    waitElementToBeClickable(driver, ERROR_MESSAGE);
-    return driver.findElement(ERROR_MESSAGE).isDisplayed();
+  public boolean isErrorMessageDisplayed() {
+    return waitElementToBeClickable(driver, ERROR_MESSAGE).isDisplayed();
   }
 
   public void clickUserAccount() {
-    waitElementToBeClickable(driver, USER_ACCOUNT);
-    driver.findElement(USER_ACCOUNT).click();
+    waitElementToBeClickable(driver, USER_ACCOUNT).click();
   }
 
   public String getUserName() {
-    waitElementToBeClickable(driver, USER_ACCOUNT_NAME);
-    return driver.findElement(USER_ACCOUNT_NAME).getText();
+    return waitElementToBeClickable(driver, USER_ACCOUNT_NAME).getText();
   }
 }

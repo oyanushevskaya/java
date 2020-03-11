@@ -1,6 +1,6 @@
 package taf.service;
 
-import static taf.constants.Constants.*;
+import static taf.util.StringUtils.*;
 
 import java.util.ArrayList;
 import org.openqa.selenium.WebDriver;
@@ -22,11 +22,10 @@ public class YandexDiskService extends YandexDiskAbstractPage {
     driver.switchTo().window(tabs.get(0));
   }
 
-  public YandexDiskService navigateToYandexDisk() {
+  public void navigateToYandexDisk() {
     new YandexDiskHomePage(driver)
         .openPage()
         .clickLoginButton();
-    return this;
   }
 
   public String getUserName() {
@@ -37,34 +36,31 @@ public class YandexDiskService extends YandexDiskAbstractPage {
 
   public void logIntoAccount() {
     new YandexDiskAuthPage(driver)
-        .logInYandexDisk(LOGIN, PASSWORD);
+        .logInYandexDisk(VALID_LOGIN, VALID_PASSWORD);
   }
 
-  public YandexDiskService createNewFolder() {
+  public void createNewFolder() {
     new YandexDiskMainPage(driver)
         .clickMenuItemFiles()
         .createFolder()
         .typeFolderName()
         .pressCreateFolder()
         .visitCreatedFolder();
-    return this;
   }
 
-  public YandexDiskService createNewDocument() {
+  public void createNewDocument() {
     new YandexDiskMainPage(driver)
         .createNewDocument();
     switchToDocumentPageTab();
     new YandexDiskDocumentPage(driver)
         .switchToFrame()
         .typeTextInDocument(DOCUMENT_BODY_TEXT)
-        .saveStatusDocument()
         .clickMenuItemFile()
         .clickRenameButton()
         .renameDocument(DOCUMENT_NAME)
         .clickMenuItemFile()
         .clickCloseDocument();
     switchToFolderPageTab();
-    return this;
   }
 
   public void deleteDocument() {
@@ -75,7 +71,7 @@ public class YandexDiskService extends YandexDiskAbstractPage {
         .clickDeleteDocumentButton();
   }
 
-  public void emptyTrash() {
+  public void isTrashEmpty() {
     new YandexDiskMainPage(driver)
         .clickTrashButton()
         .clickEmptyTrash()
