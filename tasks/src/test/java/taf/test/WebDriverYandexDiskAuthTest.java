@@ -18,7 +18,7 @@ public class WebDriverYandexDiskAuthTest {
   @DataProvider(name = "Credentials")
   public static Object[][] getData() {
     return new Object[][]{
-        {"test", "123", false},
+        {INVALID_LOGIN, INVALID_PASSWORD, false},
         {VALID_LOGIN, VALID_PASSWORD, true}};
   }
 
@@ -43,6 +43,7 @@ public class WebDriverYandexDiskAuthTest {
       softAssert.assertTrue(new YandexDiskAuthPage(driver).isErrorMessageDisplayed(),
           "Error message was not displayed");
     }
+    softAssert.assertAll();
   }
 
   @AfterMethod(alwaysRun = true, description = "Google Chrome browser closes")

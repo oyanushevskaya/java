@@ -30,6 +30,7 @@ public class WebDriverYandexDiskTest extends CommonConditions{
     softAssert.assertEquals(new YandexDiskService(driver).foundTextInDocument(),
         " " + DOCUMENT_BODY_TEXT + " ",
         "text was not equals in document");
+    softAssert.assertAll();
   }
 
   @Test(description = "Check document in trash")

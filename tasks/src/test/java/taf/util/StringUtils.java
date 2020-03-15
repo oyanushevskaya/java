@@ -6,6 +6,9 @@ public class StringUtils {
   public final static String VALID_LOGIN = "training.test.login";
   public final static String VALID_PASSWORD = "training.test.password";
 
+  public final static String INVALID_LOGIN = "test";
+  public final static String INVALID_PASSWORD = "123";
+
   public final static String DOCUMENT_BODY_TEXT = "Hello world!!!";
   public final static String DOCUMENT_NAME = "Hello world";
 
