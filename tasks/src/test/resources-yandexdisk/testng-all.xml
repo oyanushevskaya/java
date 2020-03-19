@@ -1,0 +1,9 @@
+<suite name="Tests Suite">
+  <test name="YandexDiskTest">
+    <classes>
+      <class name="taf.test.WebDriverYandexDiskAuthTest"/>
+      <class name="taf.test.WebDriverYandexDiskMenuItemsTest"/>
+      <class name="taf.test.WebDriverYandexDiskTest"/>
+    </classes>
+  </test>
+</suite>
