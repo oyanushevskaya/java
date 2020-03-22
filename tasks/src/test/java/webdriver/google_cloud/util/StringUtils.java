@@ -2,7 +2,7 @@ package webdriver.google_cloud.util;
 
 public class StringUtils {
   public final static String HOMEPAGE_URL = "https://cloud.google.com/";
-  public final static String EMAIL_PAGE_URL = "https://10minutemail.com/";
+  public final static String EMAIL_PAGE_URL = "https://10minemail.com/en/";
 
   public final static String TERM_FOR_SEARCH = "Google Cloud Platform Pricing Calculator";
 
