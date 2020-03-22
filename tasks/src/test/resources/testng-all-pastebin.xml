@@ -1,0 +1,7 @@
+<suite name="Tests Suite">
+  <test name="PastebinTest">
+    <classes>
+      <class name="webdriver.pastebin.WebDriverPastebinTest"/>
+    </classes>
+  </test>
+</suite>
