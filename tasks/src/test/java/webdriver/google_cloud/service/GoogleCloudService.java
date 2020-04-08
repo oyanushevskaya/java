@@ -1,14 +1,15 @@
 package webdriver.google_cloud.service;
 
-import static webdriver.google_cloud.util.StringUtils.*;
-
 import java.util.ArrayList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import webdriver.google_cloud.model.ComputeEngine;
 import webdriver.google_cloud.page.*;
 
 public class GoogleCloudService extends GoogleCloudAbstractPage {
+  private final Logger logger = LogManager.getRootLogger();
   private static ArrayList<String> tabs;
 
   public GoogleCloudService(WebDriver driver) {
@@ -16,27 +17,32 @@ public class GoogleCloudService extends GoogleCloudAbstractPage {
   }
 
   public void addNewTab() {
+    logger.info("Open new tab");
     ((JavascriptExecutor)driver).executeScript("window.open()");
   }
 
   public void switchToMailPageTab() {
+    logger.info("Switch to mail page");
     tabs = new ArrayList<>(driver.getWindowHandles());
     driver.switchTo().window(tabs.get(1));
   }
 
   public void switchToCalculatorPageTab() {
+    logger.info("Switch to calculator page");
     driver.switchTo().window(tabs.get(0));
   }
 
   public void navigateToCalculatorPage() {
+    logger.info("Navigate to calculator page");
     new GoogleCloudHomePage(driver)
         .openPage()
         .clickSearchButton()
-        .typeSearchTerm(TERM_FOR_SEARCH)
-        .findTerm(TERM_FOR_SEARCH);
+        .typeSearchTerm()
+        .findTerm();
   }
 
   public void fillCalculatorFormForComputeEngine(ComputeEngine computeEngine) {
+    logger.info("Fill the calculator form for compute engine");
     new GoogleCloudCalculatorPage(driver)
         .switchToFrame()
         .clickComputeEngine()
@@ -52,7 +58,8 @@ public class GoogleCloudService extends GoogleCloudAbstractPage {
         .chooseCommittedUsage(computeEngine.getCommittedUsage());
   }
 
-  public void addEstimateAndSentOnEmail() {
+  public void addEstimateAndSendEmail() {
+    logger.info("Add to estimate and send email estimate");
     new GoogleCloudCalculatorPage(driver)
         .clickAddToEstimate()
         .clickEmailEstimate();

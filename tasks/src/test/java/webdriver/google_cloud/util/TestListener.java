@@ -1,9 +1,9 @@
 package webdriver.google_cloud.util;
 
+import static webdriver.google_cloud.util.StringUtils.*;
+
 import java.io.File;
 import java.io.IOException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,42 +19,45 @@ public class TestListener implements ITestListener {
 
   @Override
   public void onTestStart(ITestResult result) {
-
+    logger.info(result.getName() + " test case started");
   }
 
   @Override
   public void onTestSuccess(ITestResult result) {
-
+    logger.info("Test finished success : " + result.getName());
   }
 
   @Override
   public void onTestFailure(ITestResult result) {
     saveScreenshot();
+    logger.info("Test failed: " + result.getName());
   }
 
   @Override
   public void onTestSkipped(ITestResult result) {
     saveScreenshot();
+    logger.info("Test skipped: " + result.getName());
   }
 
   @Override
   public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-
+    logger.info("Test failed but within success percentage: " + result.getName());
   }
 
   @Override
   public void onTestFailedWithTimeout(ITestResult result) {
     saveScreenshot();
+    logger.info("Test failed with timeout: " + result.getName());
   }
 
   @Override
   public void onStart(ITestContext context) {
-
+    logger.info(context.getName() + " tests started");
   }
 
   @Override
   public void onFinish(ITestContext context) {
-
+    logger.info(context.getName() + " tests finished");
   }
 
   private void saveScreenshot() {
@@ -67,10 +70,6 @@ public class TestListener implements ITestListener {
     } catch (IOException e) {
       logger.error("Failed to save screen: " + e.getLocalizedMessage());
     }
-  }
-
-  private String getCurrentTimeAsString() {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd_HH-mm-ss");
-    return ZonedDateTime.now().format(formatter);
+    logger.info("Successful to save screen");
   }
 }

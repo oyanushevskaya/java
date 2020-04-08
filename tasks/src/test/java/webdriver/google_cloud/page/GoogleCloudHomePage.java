@@ -15,7 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class GoogleCloudHomePage extends GoogleCloudAbstractPage {
   private final Logger logger = LogManager.getRootLogger();
   private static final String PATTERN_FIND_TERM = "//b[contains(text(), '%s')]";
-  private static final int TIME_OUT_IN_SECONDS = 30;
 
   @FindBy(name = "q")
   private WebElement searchInput;
@@ -25,25 +24,27 @@ public class GoogleCloudHomePage extends GoogleCloudAbstractPage {
   }
 
   public GoogleCloudHomePage openPage() {
+    logger.info("Open " + HOMEPAGE_URL + " page");
     driver.get(HOMEPAGE_URL);
-    logger.info("Page " + HOMEPAGE_URL + " was opened");
     return this;
   }
 
   public GoogleCloudHomePage clickSearchButton() {
-    waitElementToBeClickable(driver, searchInput).click();
+    logger.info("Click on the search button");
+    waitElementToBeClickable(searchInput).click();
     return this;
   }
 
-  public GoogleCloudHomePage typeSearchTerm(String term) {
-    waitForVisibility(driver, searchInput).sendKeys(term + Keys.ENTER);
+  public GoogleCloudHomePage typeSearchTerm() {
+    logger.info("Type " + SEARCH_TERM + " in search line");
+    waitForVisibility(searchInput).sendKeys(SEARCH_TERM + Keys.ENTER);
     return this;
   }
 
-  public void findTerm(String term) {
-    new WebDriverWait(driver,TIME_OUT_IN_SECONDS)
-        .until(driver -> driver.findElement(By.xpath(String.format(PATTERN_FIND_TERM, term))))
+  public void findTerm() {
+    logger.info("Found " + SEARCH_TERM + " in search line");
+    new WebDriverWait(driver, TIME_OUT_IN_SECONDS)
+        .until(driver -> driver.findElement(By.xpath(String.format(PATTERN_FIND_TERM, SEARCH_TERM))))
         .click();
-    logger.info(term + " was found in search line");
   }
 }

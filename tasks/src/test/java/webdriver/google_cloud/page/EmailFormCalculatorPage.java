@@ -25,17 +25,17 @@ public class EmailFormCalculatorPage extends GoogleCloudAbstractPage {
   }
 
   public EmailFormCalculatorPage getEmail() {
+    logger.info("Paste generated mail in email form");
     driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-    waitFrameToBeAvailable(driver, "myFrame");
+    waitFrameToBeAvailable("myFrame");
 
-    waitElementToBeClickable(driver, emailForm).click();
-    waitForVisibility(driver, emailInput).sendKeys(Keys.chord(Keys.CONTROL,"v"));
-    logger.info("Generated mail was pasted in email form");
+    waitElementToBeClickable(emailForm).click();
+    waitForVisibility(emailInput).sendKeys(Keys.chord(Keys.CONTROL,"v"));
     return this;
   }
 
   public void clickSendEmail() {
-    waitElementToBeClickable(driver,sendEmailButton).sendKeys(Keys.ENTER);
-    logger.info("Button 'Send email' was clicked");
+    logger.info("Click 'Send email' button");
+    waitForVisibility(sendEmailButton).sendKeys(Keys.ENTER);
   }
 }
