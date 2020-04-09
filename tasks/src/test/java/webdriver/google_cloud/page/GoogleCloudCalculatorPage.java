@@ -4,50 +4,62 @@ import static org.openqa.selenium.Keys.ARROW_DOWN;
 import static org.openqa.selenium.Keys.ENTER;
 import static webdriver.google_cloud.browser.Browser.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
-  private WebElement webElement;
+  private final Logger logger = LogManager.getRootLogger();
 
   @FindBy(xpath = "//div[@title='Compute Engine']/..")
   private WebElement computeEngineButton;
-  @FindBy(id = "input_53")
+  @FindBy(xpath = "//input[@ng-model='listingCtrl.computeServer.quantity']")
   private WebElement numberOfInstanceInput;
-  @FindBy(id = "select_65")
+  @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.os']")
   private WebElement searchOperatingSystemDropdown;
-  @FindBy(id = "select_69")
+  @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.class']")
   private WebElement machineClassDropdown;
-  @FindBy(id = "select_78")
+  @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.instance']")
   private WebElement machineTypeDropdown;
-  @FindBy(xpath = "//md-checkbox")
+  @FindBy(xpath = "//md-checkbox[@ng-model='listingCtrl.computeServer.addGPUs']")
   private WebElement addGRUsCheckbox;
-  @FindBy(id = "select_355")
+  @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.gpuCount']")
   private WebElement numbersOfGRUsDropdown;
-  @FindBy(id = "select_357")
+  @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.gpuType']")
   private WebElement GRUTypeDropdown;
-  @FindBy(id = "select_172")
+  @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.ssd']")
   private WebElement localSSDDropdown;
-  @FindBy(id = "select_80")
+  @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.location']")
   private WebElement datacenterLocationDropdown;
-  @FindBy(id = "select_87")
+  @FindBy(xpath = "//md-select[@ng-disabled='listingCtrl.isCudDisabled']")
   private WebElement committedUsageDropdown;
   @FindBy(xpath = "//button[contains(text(), 'Add to Estimate')]")
   private WebElement addToEstimateButton;
   @FindBy(xpath = "//*[@class='md-title']/b")
-  public WebElement totalCost;
+  public WebElement totalCostLabel;
   @FindBy(id = "email_quote")
   private WebElement emailEstimateButton;
+
+  private static final String PATTERN_CHOOSE_VALUE = "[@value='%s']";
+  private static final String NUMBERS_OF_GRU_CONTAINER =
+      "//md-option[@ng-repeat='item in listingCtrl.supportedGpuNumbers[listingCtrl.computeServer.gpuType]']";
+  private static final String LOCAL_SSD_CONTAINER =
+      "//md-option[@ng-repeat='item in listingCtrl.supportedSsd']";
+  private static final String LOCATION_CONTAINER =
+      "//*[@id='select_container_84']//*";
+  private static final String USAGE_CONTAINER =
+      "//*[@id='select_container_91']//*";
+
 
   public GoogleCloudCalculatorPage(WebDriver driver) {
     super(driver);
   }
 
   public String getMachineClassText() {
-    waitForVisibleElement(driver,machineClassDropdown);
-    return machineClassDropdown.getText();
+    return waitForVisibility(machineClassDropdown).getText();
   }
 
   public String getMachineTypeText() {
@@ -67,93 +79,106 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   }
 
   public String getTotalCostText() {
-    return totalCost.getText();
+    return totalCostLabel.getText();
   }
 
   public WebElement chooseOption(String value) {
-    return driver.findElement(By.xpath("//*[@value='"+value+"']"));
+    return driver.findElement(By.xpath(String.format("//*" + PATTERN_CHOOSE_VALUE, value)));
+  }
+
+  public WebElement chooseOption(String container, String value) {
+    return driver.findElement(By.xpath(String.format(container + PATTERN_CHOOSE_VALUE, value)));
+  }
+
+  public GoogleCloudCalculatorPage switchToFrame() {
+    logger.info("Switch to frame");
+    driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+    waitFrameToBeAvailable("myFrame");
+    return this;
   }
 
   public GoogleCloudCalculatorPage clickComputeEngine() {
-    driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-    waitForVisibleFrame(driver, "myFrame");
-    waitForVisibleElement(driver, computeEngineButton);
-    computeEngineButton.click();
+    logger.info("Select Compute Engine");
+    waitForVisibility(computeEngineButton).click();
     return this;
   }
 
   public GoogleCloudCalculatorPage typeNumberOfInstance(String number) {
-    numberOfInstanceInput.click();
+    logger.info("Number of instance - " + number);
+    waitForVisibility(numberOfInstanceInput).click();
     numberOfInstanceInput.sendKeys(number);
     return this;
   }
 
   public GoogleCloudCalculatorPage chooseOperatingSystem(String value) {
+    logger.info("Operating system - " + value);
     searchOperatingSystemDropdown.sendKeys(ARROW_DOWN);
     chooseOption(value).click();
     return this;
   }
 
   public GoogleCloudCalculatorPage chooseMachineClass(String value) {
+    logger.info("Machine class - " + value);
     machineClassDropdown.sendKeys(ARROW_DOWN);
-    webElement = chooseOption(value);
-    waitForVisibleElement(driver, webElement);
-    webElement.sendKeys(ENTER);
+    waitForVisibility(chooseOption(value)).click();
     return this;
   }
 
   public GoogleCloudCalculatorPage chooseMachineType(String value) {
+    logger.info("Machine type - " + value);
     machineTypeDropdown.sendKeys(ARROW_DOWN);
-    webElement = chooseOption(value);
-    waitForVisibleElement(driver, webElement);
-    webElement.sendKeys(ENTER);
+    waitForVisibility(chooseOption(value)).sendKeys(ENTER);
     return this;
   }
 
-  public GoogleCloudCalculatorPage chooseAddGRUs(String numberValue, String typeValue) {
-    addGRUsCheckbox.sendKeys(ENTER);
+  public GoogleCloudCalculatorPage clickAddGRUs() {
+    logger.info("Click 'Add GRUs' button");
+    waitForVisibility(addGRUsCheckbox).sendKeys(ENTER);
+    return this;
+  }
 
+  public GoogleCloudCalculatorPage chooseNumbersOfGRUs(String number) {
+    logger.info("Number of GRUs - " + number);
     numbersOfGRUsDropdown.sendKeys(ARROW_DOWN);
-    webElement = driver.findElement(By.xpath("//*[@id='select_container_356']//*[@value='"+numberValue+"']"));
-    waitForVisibleElement(driver, webElement);
-    webElement.sendKeys(ENTER);
+    waitForVisibility(chooseOption(NUMBERS_OF_GRU_CONTAINER, number)).sendKeys(ENTER);
+    return this;
+  }
 
+  public GoogleCloudCalculatorPage chooseGRUType(String value) {
+    logger.info("GRU type - " + value);
     GRUTypeDropdown.sendKeys(ARROW_DOWN);
-    webElement = chooseOption(typeValue);
-    waitForVisibleElement(driver, webElement);
-    webElement.sendKeys(ENTER);
+    waitForVisibility(chooseOption(value)).sendKeys(ENTER);
     return this;
   }
 
   public GoogleCloudCalculatorPage chooseLocalSSD(String value) {
+    logger.info("Local SSD - " + value);
     localSSDDropdown.sendKeys(ARROW_DOWN);
-    webElement = driver.findElement(By.xpath("//*[@id='select_container_173']//*[@value='"+value+"']"));
-    waitForVisibleElement(driver, webElement);
-    webElement.sendKeys(ENTER);
+    waitForVisibility(chooseOption(LOCAL_SSD_CONTAINER, value)).sendKeys(ENTER);
     return this;
   }
 
   public GoogleCloudCalculatorPage chooseDatacenterLocation(String value) {
+    logger.info("Datacenter location - " + value);
     datacenterLocationDropdown.sendKeys(ARROW_DOWN);
-    webElement = driver.findElement(By.xpath("//*[@id='select_container_81']//*[@value='"+value+"']"));
-    waitForVisibleElement(driver, webElement);
-    webElement.sendKeys(ENTER);
+    waitForVisibility(chooseOption(LOCATION_CONTAINER, value)).sendKeys(ENTER);
     return this;
   }
 
   public void chooseCommittedUsage(String value) {
+    logger.info("Committed usage - " + value);
     committedUsageDropdown.sendKeys(ARROW_DOWN);
-    webElement = driver.findElement(By.xpath("//*[@id='select_container_88']//*[@value='"+value+"']"));
-    waitForVisibleElement(driver, webElement);
-    webElement.sendKeys(ENTER);
+    waitForVisibility(chooseOption(USAGE_CONTAINER, value)).sendKeys(ENTER);
   }
 
   public GoogleCloudCalculatorPage clickAddToEstimate() {
+    logger.info("Click 'Add to estimate' button");
     addToEstimateButton.sendKeys(ENTER);
     return this;
   }
 
   public void clickEmailEstimate() {
+    logger.info("Click 'Email estimate' button");
     emailEstimateButton.sendKeys(ENTER);
   }
 }

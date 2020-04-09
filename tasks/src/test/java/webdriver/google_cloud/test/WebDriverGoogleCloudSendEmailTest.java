@@ -12,7 +12,7 @@ public class WebDriverGoogleCloudSendEmailTest extends CommonConditions {
   @Test(description = "Verify total cost that was sent on email")
   public void verifyTotalCostByEmail() {
     new GoogleCloudService(driver)
-        .addEstimateAndSentOnEmail();
+        .addEstimateAndSendEmail();
     Assert.assertEquals(new TenMinuteEmailHomePage(driver).getTotalCostFromEmailText(),
         ESTIMATED_MONTHLY_COST,
         ERROR_TOTAL_COST);

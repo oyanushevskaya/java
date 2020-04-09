@@ -1,10 +1,13 @@
 package webdriver.google_cloud.util;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class StringUtils {
   public final static String HOMEPAGE_URL = "https://cloud.google.com/";
-  public final static String EMAIL_PAGE_URL = "https://10minutemail.com/";
+  public final static String EMAIL_PAGE_URL = "https://10minemail.com/en/";
 
-  public final static String TERM_FOR_SEARCH = "Google Cloud Platform Pricing Calculator";
+  public final static String SEARCH_TERM = "Google Cloud Platform Pricing Calculator";
 
   public final static String TOTAL_ESTIMATED_COST = "Total Estimated Cost: USD 1,082.77 per 1 month";
   public final static String ESTIMATED_MONTHLY_COST = "Estimated Monthly Cost: USD 1,082.77";
@@ -24,4 +27,9 @@ public class StringUtils {
 
   public final static String USAGE_1YEAR = "1 Year";
   public final static String ERROR_USAGE = "Committed usage is not " + USAGE_1YEAR;
+
+  public static String getCurrentTimeAsString() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd_HH-mm-ss");
+    return ZonedDateTime.now().format(formatter);
+  }
 }
