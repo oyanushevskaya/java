@@ -43,15 +43,15 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   @FindBy(id = "email_quote")
   private WebElement emailEstimateButton;
 
-  private static final String PATTERN_CHOOSE_VALUE = "[@value='%s']";
+  private static final String PATTERN_CHOOSE_VALUE = "//*[@value='%s']";
   private static final String NUMBERS_OF_GRU_CONTAINER =
-      "//md-option[@ng-repeat='item in listingCtrl.supportedGpuNumbers[listingCtrl.computeServer.gpuType]']";
+      "//md-option[@ng-repeat='item in listingCtrl.supportedGpuNumbers[listingCtrl.computeServer.gpuType]'][@value='%s']";
   private static final String LOCAL_SSD_CONTAINER =
-      "//md-option[@ng-repeat='item in listingCtrl.supportedSsd']";
+      "//md-option[@ng-repeat='item in listingCtrl.supportedSsd'][@value='%s']";
   private static final String LOCATION_CONTAINER =
-      "//*[@id='select_container_84']//*";
+      "//*[@id='select_container_84']//*[@value='%s']";
   private static final String USAGE_CONTAINER =
-      "//*[@id='select_container_91']//*";
+      "//*[@id='select_container_91']//*[@value='%s']";
 
 
   public GoogleCloudCalculatorPage(WebDriver driver) {
@@ -83,11 +83,11 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   }
 
   public WebElement chooseOption(String value) {
-    return driver.findElement(By.xpath(String.format("//*" + PATTERN_CHOOSE_VALUE, value)));
+    return driver.findElement(By.xpath(String.format(PATTERN_CHOOSE_VALUE, value)));
   }
 
-  public WebElement chooseOption(String container, String value) {
-    return driver.findElement(By.xpath(String.format(container + PATTERN_CHOOSE_VALUE, value)));
+  public WebElement chooseOption(String pattern, String value) {
+    return driver.findElement(By.xpath(String.format(pattern, value)));
   }
 
   public GoogleCloudCalculatorPage switchToFrame() {
