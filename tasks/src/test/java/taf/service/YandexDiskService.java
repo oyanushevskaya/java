@@ -1,9 +1,9 @@
 package taf.service;
 
-import static taf.util.StringUtils.*;
-
 import java.util.ArrayList;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import taf.model.User;
 import taf.page.*;
 
 public class YandexDiskService extends YandexDiskAbstractPage {
@@ -13,13 +13,17 @@ public class YandexDiskService extends YandexDiskAbstractPage {
     super(driver);
   }
 
-  public void switchToDocumentPageTab() {
+  public void switchToSecondTab() {
     tabs = new ArrayList<>(driver.getWindowHandles());
     driver.switchTo().window(tabs.get(1));
   }
 
-  public void switchToFolderPageTab() {
+  public void switchToFirstTab() {
     driver.switchTo().window(tabs.get(0));
+  }
+
+  public void closeTab() {
+    ((JavascriptExecutor)driver).executeScript("window.onbeforeunload = null;" + "window.close()");
   }
 
   public void navigateToYandexDisk() {
@@ -34,14 +38,18 @@ public class YandexDiskService extends YandexDiskAbstractPage {
     return new YandexDiskAuthPage(driver).getUserName();
   }
 
-  public void logIntoAccount() {
+  public void logIntoAccount(User user) {
     new YandexDiskAuthPage(driver)
-        .logInYandexDisk(VALID_LOGIN, VALID_PASSWORD);
+        .enterLogin(user.getUsername())
+        .clickSignInButton()
+        .enterPassword(user.getPassword())
+        .clickSignInButton();
   }
 
   public void createNewFolder() {
     new YandexDiskMainPage(driver)
         .clickMenuItemFiles()
+        .createResource()
         .createFolder()
         .typeFolderName()
         .pressCreateFolder()
@@ -50,25 +58,38 @@ public class YandexDiskService extends YandexDiskAbstractPage {
 
   public void createNewDocument() {
     new YandexDiskMainPage(driver)
+        .createResource()
         .createNewDocument();
-    switchToDocumentPageTab();
+    switchToSecondTab();
     new YandexDiskDocumentPage(driver)
         .switchToFrame()
-        .typeTextInDocument(DOCUMENT_BODY_TEXT)
+        .typeTextInDocument()
         .clickMenuItemFile()
+        .clickSaveAsButton()
         .clickRenameButton()
-        .renameDocument(DOCUMENT_NAME)
+        .renameDocument()
         .clickMenuItemFile()
         .clickCloseDocument();
-    switchToFolderPageTab();
+    switchToFirstTab();
   }
 
   public void deleteDocument() {
+    new YandexDiskDocumentPage(driver)
+        .clickMenuItemFile()
+        .clickCloseDocument();
+    switchToFirstTab();
     new YandexDiskMainPage(driver)
         .clickMenuItemFiles()
         .visitCreatedFolder()
         .clickFoundDocument()
-        .clickDeleteDocumentButton();
+        .clickDeleteResource();
+  }
+
+  public void deleteFolder() {
+    new YandexDiskMainPage(driver)
+        .clickMenuItemFiles()
+        .clickFoundFolder()
+        .clickDeleteResource();
   }
 
   public void isTrashEmpty() {
@@ -92,18 +113,37 @@ public class YandexDiskService extends YandexDiskAbstractPage {
 
   public String foundTextInDocument() {
     new YandexDiskMainPage(driver)
-        .clickEditDocumentButton();
-    switchToDocumentPageTab();
+        .clickMenuItemFiles()
+        .visitCreatedFolder()
+        .clickFoundDocument()
+        .clickEditDocument();
+    switchToSecondTab();
     new YandexDiskDocumentPage(driver)
         .switchToFrame();
+   do {
+     new YandexDiskMainPage(driver)
+         .clickFoundDocument()
+         .clickEditDocument();
+     switchToSecondTab();
+     closeTab();
+     switchToSecondTab();
+     new YandexDiskDocumentPage(driver)
+         .switchToFrame();
+   } while (new YandexDiskDocumentPage(driver).isErrorDisplayed());
+
     return new YandexDiskDocumentPage(driver).getTextFromDocument();
   }
 
   public boolean foundDocumentInTrash() {
     new YandexDiskMainPage(driver)
-        .clickTrashButton()
-        .clickFoundDocument();
+        .clickTrashButton();
     return new YandexDiskMainPage(driver).documentIsDisplayed();
+  }
+
+  public boolean foundFolderInTrash() {
+    new YandexDiskMainPage(driver)
+        .clickTrashButton();
+    return new YandexDiskMainPage(driver).folderIsDisplayed();
   }
 
   public boolean trashIsEmpty() {

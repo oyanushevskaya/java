@@ -1,43 +1,39 @@
 package taf.test;
 
-import static taf.util.StringUtils.*;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+import taf.driver.DriverSingleton;
+import taf.model.User;
 import taf.page.YandexDiskAuthPage;
+import taf.service.UserCreator;
 import taf.service.YandexDiskService;
 
-public class WebDriverYandexDiskAuthTest {
+public class WebDriverYandexDiskUserAccessTest {
   private WebDriver driver;
 
   @DataProvider(name = "Credentials")
   public static Object[][] getData() {
     return new Object[][]{
-        {INVALID_LOGIN, INVALID_PASSWORD, false},
-        {VALID_LOGIN, VALID_PASSWORD, true}};
+        {UserCreator.withInvalidCredentialsFromProperty(), false},
+        {UserCreator.withValidCredentialsFromProperty(), true}};
   }
 
   @BeforeMethod(alwaysRun = true, description = "Google Chrome opens, goes to Yandex Disk Auth page")
   public void goToAuthPage() {
-    driver = new ChromeDriver();
-    driver.manage().window().maximize();
+    driver = DriverSingleton.getDriver();
     new YandexDiskService(driver)
         .navigateToYandexDisk();
   }
 
   @Test(dataProvider = "Credentials",
       description = "Verify that not log or log into account in Yandex Disk")
-  public void verifyLoginIntoYandexDisk(String login, String password, boolean shouldSucceed) {
+  public void verifyLoginIntoYandexDisk(User user, boolean shouldSucceed) {
     SoftAssert softAssert = new SoftAssert();
-    new YandexDiskAuthPage(driver)
-        .logInYandexDisk(login, password);
+    new YandexDiskService(driver)
+        .logIntoAccount(user);
     if (shouldSucceed) {
-      softAssert.assertEquals(new YandexDiskService(driver).getUserName(), VALID_LOGIN,
+      softAssert.assertEquals(new YandexDiskService(driver).getUserName(), user.getUsername(),
           "User was not logged in");
     } else {
       softAssert.assertTrue(new YandexDiskAuthPage(driver).isErrorMessageDisplayed(),
@@ -48,6 +44,6 @@ public class WebDriverYandexDiskAuthTest {
 
   @AfterMethod(alwaysRun = true, description = "Google Chrome browser closes")
   public void browserTearDown() {
-    driver.quit();
+    DriverSingleton.closeDriver();
   }
 }

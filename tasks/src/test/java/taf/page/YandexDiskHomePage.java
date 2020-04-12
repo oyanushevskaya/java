@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class YandexDiskHomePage extends YandexDiskAbstractPage{
-  public final static String HOMEPAGE_URL = "https://disk.yandex.com/";
-  public final static By LOGIN_BUTTON = By.xpath("//a[contains(@class,'button_login')]");
+  public static final String HOMEPAGE_URL = "https://disk.yandex.com/";
+  public static final By LOGIN_BUTTON = By.xpath("//a[contains(@class,'button_login')]");
 
   public YandexDiskHomePage(WebDriver driver) {
     super(driver);
@@ -19,6 +19,6 @@ public class YandexDiskHomePage extends YandexDiskAbstractPage{
   }
 
   public void clickLoginButton() {
-    waitElementToBeClickable(driver, LOGIN_BUTTON).click();
+    waitElementToBeClickable(LOGIN_BUTTON).click();
   }
 }
