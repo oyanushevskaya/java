@@ -7,9 +7,9 @@ public class Document {
   public Document() {
   }
 
-  public Document(String s) {
-    this.name = s;
-    this.text = s;
+  public Document(String name, String text) {
+    this.name = name;
+    this.text = text;
   }
 
   public String getName() {

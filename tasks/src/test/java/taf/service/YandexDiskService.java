@@ -1,5 +1,7 @@
 package taf.service;
 
+import static taf.service.FolderCreator.*;
+
 import java.util.ArrayList;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -23,7 +25,7 @@ public class YandexDiskService extends YandexDiskAbstractPage {
   }
 
   public void closeTab() {
-    ((JavascriptExecutor)driver).executeScript("window.onbeforeunload = null;" + "window.close()");
+    ((JavascriptExecutor) driver).executeScript("window.onbeforeunload = null;" + "window.close()");
   }
 
   public void navigateToYandexDisk() {
@@ -51,7 +53,7 @@ public class YandexDiskService extends YandexDiskAbstractPage {
         .clickMenuItemFiles()
         .createResource()
         .createFolder()
-        .typeFolderName()
+        .typeFolderName(generateFolderName())
         .pressCreateFolder()
         .visitCreatedFolder();
   }
@@ -92,13 +94,6 @@ public class YandexDiskService extends YandexDiskAbstractPage {
         .clickDeleteResource();
   }
 
-  public void isTrashEmpty() {
-    new YandexDiskMainPage(driver)
-        .clickTrashButton()
-        .clickEmptyTrash()
-        .confirmEmptyTrash();
-  }
-
   public boolean foundCreatedFolder() {
     new YandexDiskMainPage(driver)
         .clickMenuItemFiles();
@@ -120,16 +115,16 @@ public class YandexDiskService extends YandexDiskAbstractPage {
     switchToSecondTab();
     new YandexDiskDocumentPage(driver)
         .switchToFrame();
-   do {
-     new YandexDiskMainPage(driver)
-         .clickFoundDocument()
-         .clickEditDocument();
-     switchToSecondTab();
-     closeTab();
-     switchToSecondTab();
-     new YandexDiskDocumentPage(driver)
-         .switchToFrame();
-   } while (new YandexDiskDocumentPage(driver).isErrorDisplayed());
+    while (new YandexDiskDocumentPage(driver).isErrorDisplayed()) {
+      new YandexDiskMainPage(driver)
+          .clickFoundDocument()
+          .clickEditDocument();
+      switchToSecondTab();
+      closeTab();
+      switchToSecondTab();
+      new YandexDiskDocumentPage(driver)
+          .switchToFrame();
+    }
 
     return new YandexDiskDocumentPage(driver).getTextFromDocument();
   }
@@ -148,7 +143,9 @@ public class YandexDiskService extends YandexDiskAbstractPage {
 
   public boolean trashIsEmpty() {
     new YandexDiskMainPage(driver)
-        .clickTrashButton();
+        .clickTrashButton()
+        .clickEmptyTrash()
+        .confirmEmptyTrash();
     return new YandexDiskMainPage(driver).isEmpty();
   }
 }

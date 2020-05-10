@@ -2,7 +2,7 @@ package taf.service;
 
 import taf.model.User;
 
-public class UserCreator {
+public class UserFactory {
   public static final  String VALID_LOGIN = "testdata.user.validlogin";
   public static final  String VALID_PASSWORD = "testdata.user.validpassword";
 

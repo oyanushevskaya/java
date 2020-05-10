@@ -7,8 +7,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import taf.model.Folder;
 import taf.service.DocumentCreator;
-import taf.service.FolderCreator;
 
 public class YandexDiskMainPage extends YandexDiskAbstractPage {
   public static final By NEWEST_TAB = By.xpath("//a[@title='Newest']");
@@ -99,8 +99,8 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
     return this;
   }
 
-  public YandexDiskMainPage typeFolderName() {
-    folderName = FolderCreator.generateFolderName().getName();
+  public YandexDiskMainPage typeFolderName(Folder folder) {
+    folderName = folder.getName();
 
     WebElement folderNameInput = waitVisibilityOfElementLocated(FOLDER_NAME_INPUT);
     folderNameInput.sendKeys(Keys.CONTROL + "a");
@@ -137,7 +137,7 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
 
   public YandexDiskMainPage clickFoundDocument() {
     createdDocument = By.xpath(
-        String.format(PATTERN_FOUND_CREATED_DOCUMENT, DocumentCreator.getDocumentName().getName()));
+        String.format(PATTERN_FOUND_CREATED_DOCUMENT, DocumentCreator.getDocumentInfo().getName()));
     waitElementToBeClickable(createdDocument).click();
     return this;
   }
@@ -155,7 +155,6 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
   }
 
   public YandexDiskMainPage clickTrashButton() {
-    waitVisibilityOfElementLocated(NOTIFICATION_MESSAGE_LABEL);
     waitElementToBeClickable(TRASH_TAB).click();
     return this;
   }

@@ -6,9 +6,6 @@ import static taf.browser.Browser.waitVisibilityOfElementLocated;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import taf.service.DocumentCreator;
 
 public class YandexDiskDocumentPage extends YandexDiskAbstractPage {
@@ -37,12 +34,12 @@ public class YandexDiskDocumentPage extends YandexDiskAbstractPage {
   }
 
   public boolean isErrorDisplayed() {
-    return driver.findElements(DOCUMENT_NOT_FOUND_ERROR_MESSAGE).size() > 0;
+    return !driver.findElements(DOCUMENT_NOT_FOUND_ERROR_MESSAGE).isEmpty();
   }
 
   public YandexDiskDocumentPage typeTextInDocument() {
     waitVisibilityOfElementLocated(DOCUMENT_TEXT_INPUT)
-        .sendKeys(DocumentCreator.getBodyText().getName());
+        .sendKeys(DocumentCreator.getDocumentInfo().getText());
     return this;
   }
 
@@ -64,7 +61,7 @@ public class YandexDiskDocumentPage extends YandexDiskAbstractPage {
 
   public YandexDiskDocumentPage renameDocument() {
     waitVisibilityOfElementLocated(DOCUMENT_NAME_INPUT)
-        .sendKeys(DocumentCreator.getDocumentName().getName() + Keys.ENTER);
+        .sendKeys(DocumentCreator.getDocumentInfo().getName() + Keys.ENTER);
     return this;
   }
 

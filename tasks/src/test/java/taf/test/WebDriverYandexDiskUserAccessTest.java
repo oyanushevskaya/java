@@ -6,7 +6,7 @@ import org.testng.asserts.SoftAssert;
 import taf.driver.DriverSingleton;
 import taf.model.User;
 import taf.page.YandexDiskAuthPage;
-import taf.service.UserCreator;
+import taf.service.UserFactory;
 import taf.service.YandexDiskService;
 
 public class WebDriverYandexDiskUserAccessTest {
@@ -15,8 +15,8 @@ public class WebDriverYandexDiskUserAccessTest {
   @DataProvider(name = "Credentials")
   public static Object[][] getData() {
     return new Object[][]{
-        {UserCreator.withInvalidCredentialsFromProperty(), false},
-        {UserCreator.withValidCredentialsFromProperty(), true}};
+        {UserFactory.withInvalidCredentialsFromProperty(), false},
+        {UserFactory.withValidCredentialsFromProperty(), true}};
   }
 
   @BeforeMethod(alwaysRun = true, description = "Google Chrome opens, goes to Yandex Disk Auth page")

@@ -1,5 +1,8 @@
 package taf.driver;
 
+import static org.openqa.selenium.remote.BrowserType.CHROME;
+import static org.openqa.selenium.remote.BrowserType.FIREFOX;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,12 +18,12 @@ public class DriverSingleton {
   public static WebDriver getDriver() {
     if (driver == null) {
       switch (System.getProperty("browser")) {
-        case "firefox": {
+        case FIREFOX : {
           WebDriverManager.firefoxdriver().setup();
           driver = new FirefoxDriver();
           break;
         }
-        case "chrome": {
+        case CHROME : {
           WebDriverManager.chromedriver().setup();
           System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
           driver = new ChromeDriver();

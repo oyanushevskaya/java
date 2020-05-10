@@ -4,7 +4,6 @@ public class Folder {
   private String name;
 
   public Folder() {
-    super();
   }
 
   public Folder(String name) {
