@@ -1,28 +1,30 @@
 package taf.test;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import taf.model.User;
+import taf.service.UserFactory;
 import taf.service.YandexDiskService;
+import taf.driver.DriverSingleton;
 
 public class CommonConditions {
   protected WebDriver driver;
 
-  @BeforeMethod(alwaysRun = true,
+  @BeforeClass(alwaysRun = true,
       description = "Google Chrome opens, goes to Yandex Disk Auth page and logged in with correct credentials")
   public void goToDiskMainPage() {
-    driver = new ChromeDriver();
-    driver.manage().window().maximize();
+    driver = DriverSingleton.getDriver();
+    User user = UserFactory.withValidCredentialsFromProperty();
     new YandexDiskService(driver)
         .navigateToYandexDisk();
     new YandexDiskService(driver)
-        .logIntoAccount();
+        .logIntoAccount(user);
   }
 
-  @AfterMethod(alwaysRun = true, description = "Google Chrome browser closes")
+  @AfterClass(alwaysRun = true, description = "Google Chrome browser closes")
   public void browserTearDown() {
-    driver.quit();
+    DriverSingleton.closeDriver();
   }
 
 }

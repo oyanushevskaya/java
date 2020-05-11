@@ -1,21 +1,26 @@
 package taf.browser;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import taf.driver.DriverSingleton;
 
 public class Browser {
-  public final static int TIME_OUT_IN_SECONDS = 30;
+  public static final  int TIME_OUT_IN_SECONDS = 100;
 
-  public static WebElement waitForVisibility(WebDriver driver, WebElement element) {
-    return new WebDriverWait(driver, TIME_OUT_IN_SECONDS)
+  public static WebElement waitForVisibility(WebElement element) {
+    return new WebDriverWait(DriverSingleton.getDriver(), TIME_OUT_IN_SECONDS)
         .until(ExpectedConditions.visibilityOf(element));
   }
 
-  public static WebElement waitElementToBeClickable(WebDriver driver, By by) {
-    return new WebDriverWait(driver, TIME_OUT_IN_SECONDS)
+  public static WebElement waitVisibilityOfElementLocated(By by) {
+    return new WebDriverWait(DriverSingleton.getDriver(), TIME_OUT_IN_SECONDS)
+        .until(ExpectedConditions.visibilityOfElementLocated(by));
+  }
+
+  public static WebElement waitElementToBeClickable(By by) {
+    return new WebDriverWait(DriverSingleton.getDriver(), TIME_OUT_IN_SECONDS)
         .until(ExpectedConditions.elementToBeClickable(by));
   }
 }

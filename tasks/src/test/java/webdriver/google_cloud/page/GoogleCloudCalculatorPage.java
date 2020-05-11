@@ -43,15 +43,15 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   @FindBy(id = "email_quote")
   private WebElement emailEstimateButton;
 
-  private static final String PATTERN_CHOOSE_VALUE = "[@value='%s']";
-  private static final String NUMBERS_OF_GRU_CONTAINER =
-      "//md-option[@ng-repeat='item in listingCtrl.supportedGpuNumbers[listingCtrl.computeServer.gpuType]']";
-  private static final String LOCAL_SSD_CONTAINER =
-      "//md-option[@ng-repeat='item in listingCtrl.supportedSsd']";
-  private static final String LOCATION_CONTAINER =
-      "//*[@id='select_container_84']//*";
-  private static final String USAGE_CONTAINER =
-      "//*[@id='select_container_91']//*";
+  private static final String PATTERN_CHOOSE_VALUE = "//*[@value='%s']";
+  private static final String PATTERN_NUMBERS_OF_GRU_CONTAINER =
+      "//md-option[@ng-repeat='item in listingCtrl.supportedGpuNumbers[listingCtrl.computeServer.gpuType]'][@value='%s']";
+  private static final String PATTERN_LOCAL_SSD_CONTAINER =
+      "//md-option[@ng-repeat='item in listingCtrl.supportedSsd'][@value='%s']";
+  private static final String PATTERN_LOCATION_CONTAINER =
+      "//*[@id='select_container_84']//*[@value='%s']";
+  private static final String PATTERN_USAGE_CONTAINER =
+      "//*[@id='select_container_91']//*[@value='%s']";
 
 
   public GoogleCloudCalculatorPage(WebDriver driver) {
@@ -83,11 +83,11 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   }
 
   public WebElement chooseOption(String value) {
-    return driver.findElement(By.xpath(String.format("//*" + PATTERN_CHOOSE_VALUE, value)));
+    return driver.findElement(By.xpath(String.format(PATTERN_CHOOSE_VALUE, value)));
   }
 
-  public WebElement chooseOption(String container, String value) {
-    return driver.findElement(By.xpath(String.format(container + PATTERN_CHOOSE_VALUE, value)));
+  public WebElement chooseOption(String pattern, String value) {
+    return driver.findElement(By.xpath(String.format(pattern, value)));
   }
 
   public GoogleCloudCalculatorPage switchToFrame() {
@@ -140,7 +140,7 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   public GoogleCloudCalculatorPage chooseNumbersOfGRUs(String number) {
     logger.info("Number of GRUs - " + number);
     numbersOfGRUsDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibility(chooseOption(NUMBERS_OF_GRU_CONTAINER, number)).sendKeys(ENTER);
+    waitForVisibility(chooseOption(PATTERN_NUMBERS_OF_GRU_CONTAINER, number)).sendKeys(ENTER);
     return this;
   }
 
@@ -154,21 +154,21 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   public GoogleCloudCalculatorPage chooseLocalSSD(String value) {
     logger.info("Local SSD - " + value);
     localSSDDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibility(chooseOption(LOCAL_SSD_CONTAINER, value)).sendKeys(ENTER);
+    waitForVisibility(chooseOption(PATTERN_LOCAL_SSD_CONTAINER, value)).sendKeys(ENTER);
     return this;
   }
 
   public GoogleCloudCalculatorPage chooseDatacenterLocation(String value) {
     logger.info("Datacenter location - " + value);
     datacenterLocationDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibility(chooseOption(LOCATION_CONTAINER, value)).sendKeys(ENTER);
+    waitForVisibility(chooseOption(PATTERN_LOCATION_CONTAINER, value)).sendKeys(ENTER);
     return this;
   }
 
   public void chooseCommittedUsage(String value) {
     logger.info("Committed usage - " + value);
     committedUsageDropdown.sendKeys(ARROW_DOWN);
-    waitForVisibility(chooseOption(USAGE_CONTAINER, value)).sendKeys(ENTER);
+    waitForVisibility(chooseOption(PATTERN_USAGE_CONTAINER, value)).sendKeys(ENTER);
   }
 
   public GoogleCloudCalculatorPage clickAddToEstimate() {
