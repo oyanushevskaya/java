@@ -2,7 +2,7 @@ package taf.test;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import taf.service.DocumentCreator;
+import taf.service.DocumentFactory;
 import taf.service.TestDataReader;
 import taf.service.YandexDiskService;
 
@@ -21,7 +21,7 @@ public class WebDriverYandexDiskDocumentTest extends CommonConditions{
   @Test(description = "Check text in document", dependsOnMethods = "verifyCreateNewDocument")
   public void verifyTextInDocument() {
     Assert.assertEquals(new YandexDiskService(driver).foundTextInDocument(),
-        " " + TestDataReader.getTestData(DocumentCreator.DOCUMENT_BODY_TEXT) + " ",
+        " " + TestDataReader.getTestData(DocumentFactory.DOCUMENT_BODY_TEXT) + " ",
         "text was not equals in document");
   }
 

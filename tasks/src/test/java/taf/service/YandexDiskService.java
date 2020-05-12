@@ -1,6 +1,6 @@
 package taf.service;
 
-import static taf.service.FolderCreator.*;
+import static taf.service.FolderFactory.*;
 
 import java.util.ArrayList;
 import org.openqa.selenium.JavascriptExecutor;
@@ -141,7 +141,7 @@ public class YandexDiskService extends YandexDiskAbstractPage {
     return new YandexDiskMainPage(driver).folderIsDisplayed();
   }
 
-  public boolean trashIsEmpty() {
+  public boolean isTrashEmpty() {
     new YandexDiskMainPage(driver)
         .clickTrashButton()
         .clickEmptyTrash()

@@ -8,6 +8,6 @@ public class WebDriverYandexDiskRecycleBinTest extends CommonConditions{
 
   @Test(description = "Check trash is empty")
   public void verifyTrashIsEmpty() {
-    Assert.assertTrue(new YandexDiskService(driver).trashIsEmpty(), "trash is not empty");
+    Assert.assertTrue(new YandexDiskService(driver).isTrashEmpty(), "trash is not empty");
   }
 }

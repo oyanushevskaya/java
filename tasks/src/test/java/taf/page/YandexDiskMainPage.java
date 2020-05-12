@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import taf.model.Folder;
-import taf.service.DocumentCreator;
+import taf.service.DocumentFactory;
 
 public class YandexDiskMainPage extends YandexDiskAbstractPage {
   public static final By NEWEST_TAB = By.xpath("//a[@title='Newest']");
@@ -137,7 +137,7 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
 
   public YandexDiskMainPage clickFoundDocument() {
     createdDocument = By.xpath(
-        String.format(PATTERN_FOUND_CREATED_DOCUMENT, DocumentCreator.getDocumentInfo().getName()));
+        String.format(PATTERN_FOUND_CREATED_DOCUMENT, DocumentFactory.getDocumentInfo().getName()));
     waitElementToBeClickable(createdDocument).click();
     return this;
   }

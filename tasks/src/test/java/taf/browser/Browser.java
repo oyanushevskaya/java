@@ -9,11 +9,6 @@ import taf.driver.DriverSingleton;
 public class Browser {
   public static final  int TIME_OUT_IN_SECONDS = 100;
 
-  public static WebElement waitForVisibility(WebElement element) {
-    return new WebDriverWait(DriverSingleton.getDriver(), TIME_OUT_IN_SECONDS)
-        .until(ExpectedConditions.visibilityOf(element));
-  }
-
   public static WebElement waitVisibilityOfElementLocated(By by) {
     return new WebDriverWait(DriverSingleton.getDriver(), TIME_OUT_IN_SECONDS)
         .until(ExpectedConditions.visibilityOfElementLocated(by));

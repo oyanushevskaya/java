@@ -6,7 +6,7 @@ import static taf.browser.Browser.waitVisibilityOfElementLocated;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import taf.service.DocumentCreator;
+import taf.service.DocumentFactory;
 
 public class YandexDiskDocumentPage extends YandexDiskAbstractPage {
   public static final By DOCUMENT_TEXT_INPUT = By.xpath("//*[@id='WACViewPanel_EditingElement']/p");
@@ -39,7 +39,7 @@ public class YandexDiskDocumentPage extends YandexDiskAbstractPage {
 
   public YandexDiskDocumentPage typeTextInDocument() {
     waitVisibilityOfElementLocated(DOCUMENT_TEXT_INPUT)
-        .sendKeys(DocumentCreator.getDocumentInfo().getText());
+        .sendKeys(DocumentFactory.getDocumentInfo().getText());
     return this;
   }
 
@@ -61,7 +61,7 @@ public class YandexDiskDocumentPage extends YandexDiskAbstractPage {
 
   public YandexDiskDocumentPage renameDocument() {
     waitVisibilityOfElementLocated(DOCUMENT_NAME_INPUT)
-        .sendKeys(DocumentCreator.getDocumentInfo().getName() + Keys.ENTER);
+        .sendKeys(DocumentFactory.getDocumentInfo().getName() + Keys.ENTER);
     return this;
   }
 

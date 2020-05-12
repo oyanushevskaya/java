@@ -3,7 +3,7 @@ package taf.service;
 import java.util.Random;
 import taf.model.Folder;
 
-public class FolderCreator {
+public class FolderFactory {
   private static final int RANDOM_NUMBER_BOUND = 100;
 
   public static Folder generateFolderName() {
