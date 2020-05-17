@@ -55,15 +55,17 @@ public class TestListener implements ITestListener {
   }
 
   private void saveScreenshot() {
+    File screenshotPath = null;
     File screenCapture = ((TakesScreenshot) DriverSingleton
         .getDriver())
         .getScreenshotAs(OutputType.FILE);
     try {
-      FileUtils.copyFile(screenCapture,
-          new File(".//target/screenshots/" + getCurrentTimeAsString() + ".png"));
+      screenshotPath = new File(".//target/screenshots/" + getCurrentTimeAsString() + ".png");
+      FileUtils.copyFile(screenCapture, screenshotPath);
     } catch (IOException e) {
       logger.error(String.format("Failed to save screen: %s", e.getLocalizedMessage()));
     }
-    logger.info("Successful to save screen");
+    logger.info(String.format("Screen saved: <a href='%s' target='blank'>screenshot.file</a>",
+        screenshotPath.getAbsolutePath()));
   }
 }

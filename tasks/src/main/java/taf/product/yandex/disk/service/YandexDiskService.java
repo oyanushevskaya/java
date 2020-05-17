@@ -3,7 +3,8 @@ package taf.product.yandex.disk.service;
 import static taf.product.yandex.disk.service.FolderFactory.generateFolderName;
 
 import java.util.ArrayList;
-import org.openqa.selenium.JavascriptExecutor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import taf.product.yandex.disk.page.YandexDiskAbstractPage;
 import taf.product.yandex.disk.page.YandexDiskAuthPage;
@@ -13,6 +14,7 @@ import taf.product.yandex.disk.model.User;
 import taf.product.yandex.disk.page.YandexDiskMainPage;
 
 public class YandexDiskService extends YandexDiskAbstractPage {
+  private final Logger logger = LogManager.getRootLogger();
   private ArrayList<String> tabs;
 
   public YandexDiskService(WebDriver driver) {
@@ -20,31 +22,36 @@ public class YandexDiskService extends YandexDiskAbstractPage {
   }
 
   public void switchToSecondTab() {
+    logger.info("Switch to second tab");
     tabs = new ArrayList<>(driver.getWindowHandles());
     driver.switchTo().window(tabs.get(1));
   }
 
   public void switchToFirstTab() {
+    logger.info("Switch to first tab");
     driver.switchTo().window(tabs.get(0));
   }
 
   public void closeTab() {
-    ((JavascriptExecutor) driver).executeScript("window.onbeforeunload = null;" + "window.close()");
+    logger.info("Close tab");
+    driver.close();
   }
 
   public void navigateToYandexDisk() {
+    logger.info("Navigate to Yandex disk");
     new YandexDiskHomePage(driver)
         .openPage()
         .clickLoginButton();
   }
 
-  public String getUserName() {
+  public String getUserAccountName() {
     new YandexDiskAuthPage(driver)
         .clickUserAccount();
     return new YandexDiskAuthPage(driver).getUserName();
   }
 
   public void logIntoAccount(User user) {
+    logger.info("Log into account in Yandex disk");
     new YandexDiskAuthPage(driver)
         .enterLogin(user.getUsername())
         .clickSignInButton()
@@ -53,19 +60,21 @@ public class YandexDiskService extends YandexDiskAbstractPage {
   }
 
   public void createNewFolder() {
+    logger.info("Create new folder");
     new YandexDiskMainPage(driver)
         .clickMenuItemFiles()
-        .createResource()
-        .createFolder()
+        .clickCreateResource()
+        .clickCreateFolder()
         .typeFolderName(generateFolderName())
-        .pressCreateFolder()
+        .clickSaveFolder()
         .visitCreatedFolder();
   }
 
   public void createNewDocument() {
+    logger.info("Create new document");
     new YandexDiskMainPage(driver)
-        .createResource()
-        .createNewDocument();
+        .clickCreateResource()
+        .clickCreateDocument();
     switchToSecondTab();
     new YandexDiskDocumentPage(driver)
         .switchToFrame()
@@ -80,6 +89,7 @@ public class YandexDiskService extends YandexDiskAbstractPage {
   }
 
   public void deleteDocument() {
+    logger.info("Delete document");
     new YandexDiskDocumentPage(driver)
         .clickMenuItemFile()
         .clickCloseDocument();
@@ -92,6 +102,7 @@ public class YandexDiskService extends YandexDiskAbstractPage {
   }
 
   public void deleteFolder() {
+    logger.info("Delete folder");
     new YandexDiskMainPage(driver)
         .clickMenuItemFiles()
         .clickFoundFolder()
@@ -129,7 +140,6 @@ public class YandexDiskService extends YandexDiskAbstractPage {
       new YandexDiskDocumentPage(driver)
           .switchToFrame();
     }
-
     return new YandexDiskDocumentPage(driver).getTextFromDocument();
   }
 

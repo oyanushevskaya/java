@@ -33,7 +33,7 @@ public class WebDriverYandexDiskUserAccessTest {
     new YandexDiskService(driver)
         .logIntoAccount(user);
     if (shouldSucceed) {
-      softAssert.assertEquals(new YandexDiskService(driver).getUserName(), user.getUsername(),
+      softAssert.assertEquals(new YandexDiskService(driver).getUserAccountName(), user.getUsername(),
           "User was not logged in");
     } else {
       softAssert.assertTrue(new YandexDiskAuthPage(driver).isErrorMessageDisplayed(),

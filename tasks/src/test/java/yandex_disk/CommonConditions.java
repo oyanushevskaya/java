@@ -3,11 +3,14 @@ package yandex_disk;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
+import taf.listener.TestListener;
 import taf.product.yandex.disk.model.User;
 import taf.product.yandex.disk.service.UserFactory;
 import taf.product.yandex.disk.service.YandexDiskService;
 import taf.driver.DriverSingleton;
 
+@Listeners({TestListener.class})
 public class CommonConditions {
   protected WebDriver driver;
 
