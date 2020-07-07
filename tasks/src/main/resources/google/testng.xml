@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="GoogleCloudTests">
+
+  <test name="CorrectValues">
+    <classes>
+      <class name="google.WebDriverGoogleCloudValuesTest"/>
+    </classes>
+  </test>
+
+  <test name="GoogleCloudTest">
+    <classes>
+      <class name="google.WebDriverGoogleCloudTotalCostTest"/>
+      <class name="google.WebDriverGoogleCloudSendEmailTest"/>
+    </classes>
+  </test>
+
+</suite>

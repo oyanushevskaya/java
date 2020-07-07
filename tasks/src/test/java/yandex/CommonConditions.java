@@ -1,23 +1,28 @@
-package yandex_disk;
+package yandex;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
+import taf.browser.BrowserFactory;
+import taf.listener.SuiteListener;
 import taf.listener.TestListener;
 import taf.product.yandex.disk.model.User;
 import taf.product.yandex.disk.service.UserFactory;
 import taf.product.yandex.disk.service.YandexDiskService;
-import taf.driver.DriverSingleton;
+import taf.driver.DriverFactory;
 
-@Listeners({TestListener.class})
+@Listeners({TestListener.class, SuiteListener.class})
 public class CommonConditions {
   protected WebDriver driver;
 
   @BeforeClass(alwaysRun = true,
       description = "Google Chrome opens, goes to Yandex Disk Auth page and logged in with correct credentials")
   public void goToDiskMainPage() {
-    driver = DriverSingleton.getDriver();
+    driver = BrowserFactory.createInstance();
+    DriverFactory.setDriver(driver);
+    driver = DriverFactory.getDriver();
+
     User user = UserFactory.withValidCredentialsFromProperty();
     new YandexDiskService(driver)
         .navigateToYandexDisk();
@@ -27,7 +32,7 @@ public class CommonConditions {
 
   @AfterClass(alwaysRun = true, description = "Google Chrome browser closes")
   public void browserTearDown() {
-    DriverSingleton.closeDriver();
+    DriverFactory.closeDriver();
   }
 
 }

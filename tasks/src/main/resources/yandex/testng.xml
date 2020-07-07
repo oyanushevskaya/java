@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="YandexDiskTests">
+
+  <test name="UserAccess">
+    <classes>
+      <class name="yandex.WebDriverYandexDiskUserAccessTest"/>
+    </classes>
+  </test>
+
+  <test name="YandexDiskTest">
+    <classes>
+      <class name="yandex.WebDriverYandexDiskMenuItemsTest"/>
+      <class name="yandex.WebDriverYandexDiskFolderTest"/>
+      <class name="yandex.WebDriverYandexDiskDocumentTest"/>
+      <class name="yandex.WebDriverYandexDiskRecycleBinTest"/>
+    </classes>
+  </test>
+
+</suite>
