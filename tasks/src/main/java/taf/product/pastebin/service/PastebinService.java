@@ -1,6 +1,6 @@
 package taf.product.pastebin.service;
 
-import static taf.product.pastebin.constants.Constants.*;
+import static taf.product.pastebin.data.DataStorage.*;
 
 import org.openqa.selenium.WebDriver;
 import taf.product.pastebin.page.PastebinHomePage;

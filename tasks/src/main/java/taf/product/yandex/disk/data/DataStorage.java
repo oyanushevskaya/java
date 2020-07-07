@@ -1,6 +1,6 @@
-package taf.product.yandex.disk.util;
+package taf.product.yandex.disk.data;
 
-public class StringUtils {
+public class DataStorage {
   public static final String HOMEPAGE_URL = "https://disk.yandex.com/";
 
   public static final String NEWEST_LINK = "https://disk.yandex.com/client/recent";

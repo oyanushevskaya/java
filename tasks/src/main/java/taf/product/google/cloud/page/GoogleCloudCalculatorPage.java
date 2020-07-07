@@ -49,9 +49,9 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   private static final String PATTERN_LOCAL_SSD_CONTAINER =
       "//md-option[@ng-repeat='item in listingCtrl.supportedSsd'][@value='%s']";
   private static final String PATTERN_LOCATION_CONTAINER =
-      "//*[@id='select_container_86']//*[@value='%s']";
+      "//div[contains(@style,'display: block;')]//md-option[@ng-repeat='item in listingCtrl.fullRegionList'][@value='%s']";
   private static final String PATTERN_USAGE_CONTAINER =
-      "//*[@id='select_container_93']//*[@value='%s']";
+      "//div[@class='md-select-menu-container md-active md-clickable']//*[@value='%s']";
 
 
   public GoogleCloudCalculatorPage(WebDriver driver) {
@@ -87,7 +87,7 @@ public class GoogleCloudCalculatorPage extends GoogleCloudAbstractPage {
   }
 
   public WebElement chooseOption(String pattern, String value) {
-    return driver.findElement(By.xpath(String.format(pattern, value)));
+    return waitElementToBeClickable(By.xpath(String.format(pattern, value)));
   }
 
   public GoogleCloudCalculatorPage switchToFrame() {

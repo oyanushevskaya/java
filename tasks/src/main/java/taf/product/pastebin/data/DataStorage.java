@@ -1,6 +1,6 @@
-package taf.product.pastebin.constants;
+package taf.product.pastebin.data;
 
-public class Constants {
+public class DataStorage {
 
   public static final String HOMEPAGE_URL = "https://pastebin.com";
 

@@ -1,14 +1,18 @@
-package yandex_disk;
+package yandex;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import taf.driver.DriverSingleton;
+import taf.browser.BrowserFactory;
+import taf.driver.DriverFactory;
+import taf.listener.SuiteListener;
+import taf.listener.TestListener;
 import taf.product.yandex.disk.model.User;
 import taf.product.yandex.disk.page.YandexDiskAuthPage;
 import taf.product.yandex.disk.service.UserFactory;
 import taf.product.yandex.disk.service.YandexDiskService;
 
+@Listeners({TestListener.class, SuiteListener.class})
 public class WebDriverYandexDiskUserAccessTest {
   private WebDriver driver;
 
@@ -19,9 +23,15 @@ public class WebDriverYandexDiskUserAccessTest {
         {UserFactory.withValidCredentialsFromProperty(), true}};
   }
 
+  @BeforeClass
+  public void prepareTest() {
+    driver = BrowserFactory.createInstance();
+    DriverFactory.setDriver(driver);
+    driver = DriverFactory.getDriver();
+  }
+
   @BeforeMethod(alwaysRun = true, description = "Google Chrome opens, goes to Yandex Disk Auth page")
   public void goToAuthPage() {
-    driver = DriverSingleton.getDriver();
     new YandexDiskService(driver)
         .navigateToYandexDisk();
   }
@@ -33,8 +43,9 @@ public class WebDriverYandexDiskUserAccessTest {
     new YandexDiskService(driver)
         .logIntoAccount(user);
     if (shouldSucceed) {
-      softAssert.assertEquals(new YandexDiskService(driver).getUserAccountName(), user.getUsername(),
-          "User was not logged in");
+      softAssert
+          .assertEquals(new YandexDiskService(driver).getUserAccountName(), user.getUsername(),
+              "User was not logged in");
     } else {
       softAssert.assertTrue(new YandexDiskAuthPage(driver).isErrorMessageDisplayed(),
           "Error message was not displayed");
@@ -42,8 +53,8 @@ public class WebDriverYandexDiskUserAccessTest {
     softAssert.assertAll();
   }
 
-  @AfterMethod(alwaysRun = true, description = "Google Chrome browser closes")
+  @AfterClass(alwaysRun = true, description = "Google Chrome browser closes")
   public void browserTearDown() {
-    DriverSingleton.closeDriver();
+    DriverFactory.closeDriver();
   }
 }

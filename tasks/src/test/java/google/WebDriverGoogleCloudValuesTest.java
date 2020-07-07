@@ -1,6 +1,6 @@
-package google_cloud;
+package google;
 
-import static taf.product.google.cloud.util.StringUtils.*;
+import static taf.product.google.cloud.data.DataStorage.*;
 
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

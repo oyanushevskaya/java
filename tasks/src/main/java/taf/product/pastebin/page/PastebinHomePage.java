@@ -1,6 +1,6 @@
 package taf.product.pastebin.page;
 
-import static taf.product.pastebin.constants.Constants.HOMEPAGE_URL;
+import static taf.product.pastebin.data.DataStorage.HOMEPAGE_URL;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

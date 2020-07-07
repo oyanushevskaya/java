@@ -1,6 +1,6 @@
 package taf.product.pastebin.runner;
 
-import static taf.product.pastebin.constants.Constants.*;
+import static taf.product.pastebin.data.DataStorage.*;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;

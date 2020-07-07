@@ -1,6 +1,6 @@
-package taf.product.google.cloud.util;
+package taf.product.google.cloud.data;
 
-public class StringUtils {
+public class DataStorage {
   public static final String HOMEPAGE_URL = "https://cloud.google.com/";
   public static final String EMAIL_PAGE_URL = "https://10minemail.com/en/";
 

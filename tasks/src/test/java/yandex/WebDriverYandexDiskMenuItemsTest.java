@@ -1,6 +1,6 @@
-package yandex_disk;
+package yandex;
 
-import static taf.product.yandex.disk.util.StringUtils.*;
+import static taf.product.yandex.disk.data.DataStorage.*;
 
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

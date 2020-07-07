@@ -1,4 +1,4 @@
-package yandex_disk;
+package yandex;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
