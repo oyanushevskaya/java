@@ -1,7 +1,7 @@
 package taf.product.google.cloud.page;
 
 import static taf.browser.Browser.*;
-import static taf.product.google.cloud.util.StringUtils.EMAIL_PAGE_URL;
+import static taf.product.google.cloud.data.DataStorage.EMAIL_PAGE_URL;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

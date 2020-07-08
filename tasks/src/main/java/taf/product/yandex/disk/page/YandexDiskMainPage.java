@@ -2,8 +2,7 @@ package taf.product.yandex.disk.page;
 
 import static taf.browser.Browser.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import taf.logging.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -13,8 +12,6 @@ import taf.product.yandex.disk.service.DocumentFactory;
 import taf.product.yandex.disk.model.Folder;
 
 public class YandexDiskMainPage extends YandexDiskAbstractPage {
-  private final Logger logger = LogManager.getRootLogger();
-
   public static final By NEWEST_TAB = By.xpath("//a[@title='Newest']");
   public static final By FILES_TAB = By.id("/disk");
   public static final By PHOTO_TAB = By.xpath("//a[@title='Photo']");
@@ -91,27 +88,31 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
   }
 
   public YandexDiskMainPage clickMenuItemFiles() {
-    logger.info("Click 'Files' menu item in main page");
-    waitElementToBeClickable(FILES_TAB).click();
+    Log.info("Click 'Files' menu item in main page");
+    waitElementToBeClickable(FILES_TAB);
+    highlightElement(FILES_TAB).click();
     return this;
   }
 
   public YandexDiskMainPage clickCreateResource() {
-    logger.info("Click 'Create' button for new resource");
-    waitElementToBeClickable(CREATE_RESOURCE_BUTTON).click();
+    Log.info("Click 'Create' button for new resource");
+    waitElementToBeClickable(CREATE_RESOURCE_BUTTON);
+    highlightElement(CREATE_RESOURCE_BUTTON).click();
     return this;
   }
 
   public YandexDiskMainPage clickCreateFolder() {
-    logger.info("Click 'Folder' button");
-    waitElementToBeClickable(CREATE_FOLDER_BUTTON).click();
+    Log.info("Click 'Folder' button");
+    waitElementToBeClickable(CREATE_FOLDER_BUTTON);
+    highlightElement(CREATE_FOLDER_BUTTON).click();
     return this;
   }
 
   public YandexDiskMainPage typeFolderName(Folder folder) {
     folderName = folder.getName();
-    logger.info(String.format("Type folder name in rename form - %s", folderName));
+    Log.info(String.format("Type folder name in rename form - %s", folderName));
 
+    highlightElement(FOLDER_NAME_INPUT);
     WebElement folderNameInput = waitVisibilityOfElementLocated(FOLDER_NAME_INPUT);
     folderNameInput.sendKeys(Keys.CONTROL + "a");
     folderNameInput.sendKeys(folderName);
@@ -119,14 +120,15 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
   }
 
   public YandexDiskMainPage clickSaveFolder() {
-    logger.info("Click 'Save' button and wait notifications text about saving");
-    waitVisibilityOfElementLocated(FOLDER_NAME_INPUT).sendKeys(Keys.ENTER);
+    Log.info("Click 'Save' button and wait notifications text about saving");
+    waitVisibilityOfElementLocated(FOLDER_NAME_INPUT);
+    highlightElement(FOLDER_NAME_INPUT).sendKeys(Keys.ENTER);
     waitVisibilityOfElementLocated(NOTIFICATION_MESSAGE_LABEL);
     return this;
   }
 
   public YandexDiskMainPage visitCreatedFolder() {
-    logger.info("Click two times for visit created folder");
+    Log.info("Click two times for visit created folder");
     createdFolder = By.xpath(String.format(PATTERN_FOUND_CREATED_FOLDER, folderName));
 
     waitVisibilityOfElementLocated(createdFolder);
@@ -135,8 +137,9 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
   }
 
   public YandexDiskMainPage clickFoundFolder() {
-    logger.info(String.format("Click on created folder %s ", folderName));
-    waitElementToBeClickable(createdFolder).click();
+    Log.info(String.format("Click on created folder %s ", folderName));
+    waitElementToBeClickable(createdFolder);
+    highlightElement(createdFolder).click();
     return this;
   }
 
@@ -145,16 +148,17 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
   }
 
   public void clickCreateDocument() {
-    logger.info("Click 'Document' button");
-    waitElementToBeClickable(CREATE_DOCUMENT_BUTTON).click();
+    Log.info("Click 'Document' button");
+    waitElementToBeClickable(CREATE_DOCUMENT_BUTTON);
+    highlightElement(CREATE_DOCUMENT_BUTTON).click();
   }
 
   public YandexDiskMainPage clickFoundDocument() {
     String documentName = DocumentFactory.getDocumentInfo().getName();
-    logger.info(String.format("Click on created document %s", documentName));
-    createdDocument = By.xpath(
-        String.format(PATTERN_FOUND_CREATED_DOCUMENT, documentName));
-    waitElementToBeClickable(createdDocument).click();
+    Log.info(String.format("Click on created document %s", documentName));
+    createdDocument = By.xpath(String.format(PATTERN_FOUND_CREATED_DOCUMENT, documentName));
+    waitElementToBeClickable(createdDocument);
+    highlightElement(createdDocument).click();
     return this;
   }
 
@@ -163,31 +167,36 @@ public class YandexDiskMainPage extends YandexDiskAbstractPage {
   }
 
   public void clickEditDocument() {
-    logger.info("Click 'Edit' button in toolbar");
-    waitElementToBeClickable(EDIT_DOCUMENT_BUTTON).click();
+    Log.info("Click 'Edit' button in toolbar");
+    waitElementToBeClickable(EDIT_DOCUMENT_BUTTON);
+    highlightElement(EDIT_DOCUMENT_BUTTON).click();
   }
 
   public void clickDeleteResource() {
-    logger.info("Click 'Delete' button in toolbar");
-    waitElementToBeClickable(DELETE_RESOURCE_BUTTON).click();
+    Log.info("Click 'Delete' button in toolbar");
+    waitElementToBeClickable(DELETE_RESOURCE_BUTTON);
+    highlightElement(DELETE_RESOURCE_BUTTON).click();
     waitInvisibilityOfElementLocated(PROGRESS_BAR);
   }
 
   public YandexDiskMainPage clickTrashButton() {
-    logger.info("Click 'Trash' menu item in main page");
-    waitElementToBeClickable(TRASH_TAB).click();
+    Log.info("Click 'Trash' menu item in main page");
+    waitElementToBeClickable(TRASH_TAB);
+    highlightElement(TRASH_TAB).click();
     return this;
   }
 
   public YandexDiskMainPage clickEmptyTrash() {
-    logger.info("Click 'Empty trash' button");
-    waitElementToBeClickable(EMPTY_TRASH_BUTTON).click();
+    Log.info("Click 'Empty trash' button");
+    waitElementToBeClickable(EMPTY_TRASH_BUTTON);
+    highlightElement(EMPTY_TRASH_BUTTON).click();
     return this;
   }
 
   public void confirmEmptyTrash() {
-    logger.info("Click 'Empty' button for confirmation deleting files");
-    waitElementToBeClickable(CONFIRMATION_EMPTY_TRASH_BUTTON).click();
+    Log.info("Click 'Empty' button for confirmation deleting files");
+    waitElementToBeClickable(CONFIRMATION_EMPTY_TRASH_BUTTON);
+    highlightElement(CONFIRMATION_EMPTY_TRASH_BUTTON).click();
     waitVisibilityOfElementLocated(NOTIFICATION_MESSAGE_LABEL);
   }
 
